@@ -61,17 +61,44 @@ document.addEventListener('DOMContentLoaded', function () {
   renderCart();
 });
 
-// Enviar pedido via WhatsApp ao clicar em Finalizar
+// Exibe modal de checkout
 document.getElementById('checkoutButton').addEventListener('click', function () {
   if (cartItems.length === 0) {
     alert('Seu carrinho está vazio. Adicione itens antes de finalizar a compra.');
     return;
   }
+  document.getElementById('checkoutModal').style.display = 'flex';
+});
 
-  // Monta a mensagem
-  let message = '📦 *Resumo do Pedido:*\n\n';
+// Fecha o modal
+function closeModal() {
+  document.getElementById('checkoutModal').style.display = 'none';
+}
+
+// Confirma nome e telefone, envia via WhatsApp
+function confirmCheckout() {
+  const userName = document.getElementById('userName').value.trim();
+  const userPhone = document.getElementById('userPhone').value.trim();
+
+  if (userName === '' || userPhone === '') {
+    alert('Por favor, preencha seu nome e telefone.');
+    return;
+  }
+
+  closeModal();
+
+  const emojiMap = {
+    'Bolo': '🍰',
+    'Mini Pizza': '🍕',
+    'Pizza Broto': '🍕',
+    'Lasanha': '🍝',
+    'Panqueca': '🥞'
+  };
+
+  let message = `👤 *Nome:* ${userName}\n📱 *Telefone:* ${userPhone}\n📦 *Resumo do Pedido:*\n\n`;
   cartItems.forEach(item => {
-    message += `🍔 ${item.name} - ${item.quantity} x ${item.price}\n`;
+    const emoji = emojiMap[item.category] || '🛒';
+    message += `${emoji} ${item.name} - ${item.quantity} x ${item.price}\n`;
   });
 
   const total = cartItems.reduce((sum, item) => {
@@ -81,14 +108,11 @@ document.getElementById('checkoutButton').addEventListener('click', function () 
   message += `\n💰 *Total:* R$ ${total.toFixed(2).replace('.', ',')}`;
 
   const encodedMessage = encodeURIComponent(message);
-
-  // 🔁 Altere aqui para o seu número de WhatsApp
-  const vendedorPhone = '555180533191'; // Exemplo: +55 81 99999-9999
+  const vendedorPhone = '5551980533191'; // Substitua com seu número
 
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
-  // Limpa carrinho após envio
   cartItems = [];
   localStorage.removeItem('cartItems');
   renderCart();
-});
+}
