@@ -14,17 +14,19 @@
   </div>
 
 <!-- Modal de Finalização de Compra com Nome e Telefone -->
-<div id="checkoutModal" class="modal" style="display:none;">
+<!-- Modal de Finalização de Compra -->
+<div id="checkoutModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
     <h2>Finalizar Compra</h2>
-    <input type="text" id="userName" placeholder="Seu nome" required>
-    <input type="tel" id="userPhone" placeholder="Seu telefone com DDD" required>
-    <textarea id="orderNotes" placeholder="Observações (ex: sem cobertura de chocolate, entregar às 14h)" rows="3" style="width: 100%; margin-top: 10px;"></textarea>
-
-    <button onclick="confirmCheckout()">Confirmar Pedido</button>
+    <input type="text" id="userName" placeholder="Seu nome" required><br><br>
+    <input type="text" id="userPhone" placeholder="Seu telefone (WhatsApp)" required><br><br>
+    <textarea id="orderNotes" placeholder="Observações (ex: sem cobertura, entregar às 14h)" rows="3" style="width: 100%; margin-top: 10px;"></textarea>
+    <br><br>
+    <button onclick="confirmCheckout()">Confirmar</button>
   </div>
 </div>
+
   
 
   <div class="container">
