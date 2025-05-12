@@ -83,7 +83,7 @@ document.getElementById('checkoutButton').addEventListener('click', function () 
   const encodedMessage = encodeURIComponent(message);
 
   // 🔁 Altere aqui para o seu número de WhatsApp
-  const vendedorPhone = '5581999999999'; // Exemplo: +55 81 99999-9999
+  const vendedorPhone = '555180533191'; // Exemplo: +55 81 99999-9999
 
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
