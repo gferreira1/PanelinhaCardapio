@@ -56,19 +56,27 @@ function removeFromCart(index) {
   renderCart();
 }
 
-// Inicia render
-document.addEventListener('DOMContentLoaded', function () {
-  renderCart();
-});
+// Fecha o modal
+function closeModal() {
+  const modal = document.getElementById('checkoutModal');
+  if (modal) modal.style.display = 'none';
+}
 
-// Exibe modal de checkout
+// Confirma a compra e envia pelo WhatsApp
 function confirmCheckout() {
   const userName = document.getElementById('userName').value.trim();
-  const userPhone = document.getElementById('userPhone').value.trim();
+  const userPhoneRaw = document.getElementById('userPhone').value.trim();
   const orderNotes = document.getElementById('orderNotes').value.trim();
 
-  if (userName === '' || userPhone === '') {
-    alert('Por favor, preencha seu nome e telefone.');
+  if (userName === '') {
+    alert('Por favor, preencha seu nome.');
+    return;
+  }
+
+  const userPhone = userPhoneRaw.replace(/\D/g, '');
+
+  if (userPhone.length < 10 || userPhone.length > 11) {
+    alert('Número de telefone inválido. Informe um número com DDD (ex: 51999999999).');
     return;
   }
 
@@ -82,7 +90,7 @@ function confirmCheckout() {
     'Panqueca': '🥞'
   };
 
-  let message = `👤 *Nome:* ${userName}\n📱 *Telefone:* ${userPhone}\n📦 *Resumo do Pedido:*\n\n`;
+  let message = `👤 *Nome:* ${userName}\n📱 *Telefone:* (${userPhone.substring(0, 2)}) ${userPhone.substring(2)}\n📦 *Resumo do Pedido:*\n\n`;
 
   cartItems.forEach(item => {
     const emoji = emojiMap[item.category] || '🛒';
@@ -100,7 +108,7 @@ function confirmCheckout() {
   }
 
   const encodedMessage = encodeURIComponent(message);
-  const vendedorPhone = '5551980533191'; // seu número aqui
+  const vendedorPhone = '5551980533191';
 
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
@@ -109,3 +117,26 @@ function confirmCheckout() {
   renderCart();
 }
 
+// Inicia tudo ao carregar
+document.addEventListener('DOMContentLoaded', function () {
+  renderCart();
+
+  const checkoutBtn = document.getElementById('checkoutButton');
+  const phoneInput = document.getElementById('userPhone');
+
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', function () {
+      const modal = document.getElementById('checkoutModal');
+      if (modal) modal.style.display = 'block';
+    });
+  }
+
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '');
+      if (this.value.length > 11) {
+        this.value = this.value.slice(0, 11);
+      }
+    });
+  }
+});
