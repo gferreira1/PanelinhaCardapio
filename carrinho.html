@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho</title>
+  <link rel="stylesheet" href="carrinho.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+  <div class="header-top">
+    <h1>Carrinho de Compras</h1>
+  </div>
+  
+
+  <div class="container">
+    <!-- Conteúdo do carrinho -->
+    <div id="cartContent"></div>
+
+    <!-- Botão de Finalizar Compra -->
+    <button id="checkoutButton" class="checkoutButton">Finalizar Compra</button>
+  </div>
+
+  <!-- Rodapé para Mobile -->
+  <div class="footer-mobile">
+    <a href="index.html"class="footer-icon">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#" class="footer-icon">
+      <i class="fas fa-box"></i>
+      <span>Itens</span>
+    </a>
+    <a href="#" class="footer-icon">
+      <i class="fas fa-user"></i>
+      <span>Perfil</span>
+    </a>
+  </div>
+
+
+
+<!-- Modal de Finalização de Compra -->
+<div id="modalPhone" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h2>Finalizar Compra</h2>
+    <p>Por favor, insira seu número de telefone para confirmar a compra:</p>
+    <input type="text" id="phoneInput" placeholder="(xx) xxxxx-xxxx">
+    <button id="confirmPurchaseButton">Confirmar</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+  <script src="cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header-top {
+    background-color: #F49801;
+    color: white;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  #cartContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .cart-item {
+    background-color: white;
+    display: flex;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+    margin-top: 25px;
+  }
+  
+  .cart-item-info {
+    flex: 1;
+  }
+  
+  .cart-item-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .cart-item-quantity, .cart-item-price {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .remove-item {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .remove-item:hover {
+    background-color: #e60000;
+  }
+  
+  #checkoutButton {
+    background-color: #F49801;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20%;
+  }
+  
+  #checkoutButton:hover {
+    background-color: #34b89f;
+  }
+
+  .modal {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  input#phoneInput {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button#confirmPurchaseButton {
+    background-color: #F49801;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button#confirmPurchaseButton:hover {
+    background-color: #F49801;
+  }
+  
+
+
+  /* Estilo para o Rodapé - Visível somente em dispositivos móveis */
+.footer-mobile {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #F49801;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 100;
+  }
+  
+  .footer-icon {
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    text-decoration: none;
+  }
+  
+  .footer-icon i {
+    display: block;
+    font-size: 1.5rem;
+  }
+  
+  .footer-icon span {
+    display: block;
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+  
+  /* Estilo para dispositivos móveis */
+  @media (max-width: 768px) {
+    .footer-mobile {
+      display: flex; /* Exibe o rodapé somente em telas menores que 768px */
+    }
+  }
+
+
+
+
+
+
+
+
+  .modal {
+  display: none; /* Oculto por padrão */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+input#phoneInput {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button#confirmPurchaseButton {
+  background-color: #F49801;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button#confirmPurchaseButton:hover {
+  background-color: #F49801;
+}
+
+  
+  
