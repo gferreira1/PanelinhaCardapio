@@ -90,7 +90,7 @@ function confirmCheckout() {
     'Panqueca': '🥞'
   };
 
-  let message = `👤 *Nome:* ${userName}\n📱 *Telefone:* (${userPhone.substring(0, 2)}) ${userPhone.substring(2)}\n📦 *Resumo do Pedido:*\n\n`;
+  let message = `👤 *Nome:* ${userName}\n📱 *Tel:* (${userPhone.substring(0, 2)}) ${userPhone.substring(2)}\n📦 *Resumo do Pedido:*\n\n`;
 
   cartItems.forEach(item => {
     const emoji = emojiMap[item.category] || '🛒';
