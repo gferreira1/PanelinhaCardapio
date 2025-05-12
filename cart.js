@@ -62,23 +62,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Exibe modal de checkout
-document.getElementById('checkoutButton').addEventListener('click', function () {
-  if (cartItems.length === 0) {
-    alert('Seu carrinho está vazio. Adicione itens antes de finalizar a compra.');
-    return;
-  }
-  document.getElementById('checkoutModal').style.display = 'flex';
-});
-
-// Fecha o modal
-function closeModal() {
-  document.getElementById('checkoutModal').style.display = 'none';
-}
-
-// Confirma nome e telefone, envia via WhatsApp
 function confirmCheckout() {
   const userName = document.getElementById('userName').value.trim();
   const userPhone = document.getElementById('userPhone').value.trim();
+  const orderNotes = document.getElementById('orderNotes').value.trim();
 
   if (userName === '' || userPhone === '') {
     alert('Por favor, preencha seu nome e telefone.');
@@ -96,6 +83,7 @@ function confirmCheckout() {
   };
 
   let message = `👤 *Nome:* ${userName}\n📱 *Telefone:* ${userPhone}\n📦 *Resumo do Pedido:*\n\n`;
+
   cartItems.forEach(item => {
     const emoji = emojiMap[item.category] || '🛒';
     message += `${emoji} ${item.name} - ${item.quantity} x ${item.price}\n`;
@@ -107,8 +95,12 @@ function confirmCheckout() {
 
   message += `\n💰 *Total:* R$ ${total.toFixed(2).replace('.', ',')}`;
 
+  if (orderNotes !== '') {
+    message += `\n📝 *Observações:* ${orderNotes}`;
+  }
+
   const encodedMessage = encodeURIComponent(message);
-  const vendedorPhone = '5551980533191'; // Substitua com seu número
+  const vendedorPhone = '5551980533191'; // seu número aqui
 
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
@@ -116,3 +108,4 @@ function confirmCheckout() {
   localStorage.removeItem('cartItems');
   renderCart();
 }
+
