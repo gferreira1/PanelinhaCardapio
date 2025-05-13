@@ -838,7 +838,7 @@
 }
 
 .card:hover {
-  transform: scale(1.02);
+  transform: scale(0.85);
 }
 
 .product-image {
