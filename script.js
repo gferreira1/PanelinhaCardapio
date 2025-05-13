@@ -93,3 +93,14 @@ document.getElementById('cartIcon').addEventListener('click', function() {
 });
 
 renderGrid('Todos');
+
+
+  // Mostrar modal ao carregar a página
+  window.onload = function () {
+    document.getElementById("modalEntrega").style.display = "flex";
+  };
+
+  // Função renomeada para fechar o modal
+  function fecharModalAviso() {
+    document.getElementById("modalEntrega").style.display = "none";
+  }
