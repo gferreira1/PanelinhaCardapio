@@ -876,3 +876,17 @@
   background-color: #36b29a;
 }
 
+@media (max-width: 500px) {
+  #productGrid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .product-name, .product-price {
+    font-size: 0.85rem;
+  }
+
+  .btn-comprar {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
