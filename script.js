@@ -6,14 +6,14 @@ let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 const produtos = [
   { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimao.webp' },
   { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
-  { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 25,00', image: './assets/images/minipizza calabresa.webp' },
-  { id: '4', category: 'Pizza ', name: 'Pizza Broto 4 Queijos', price: 'R$ 25,00', image: './assets/images/pizzabrotoqueijo.webp' },
+  { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
+  { id: '4', category: 'Pizza', name: 'Pizza Broto 4 Queijos', price: 'R$ 25,00', image: './assets/images/pizzabrotoqueijo.webp' },
   { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa', price: 'R$ 30,00', image: './assets/images/lasanhacarne.webp' },
   { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 15,00', image: './assets/images/panqueca.webp' },
-  { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracuja', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
+  { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracujá', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
 ];
 
-// Função de exibição de produtos em grade
+// Função para exibir os produtos na grade
 function renderGrid(category) {
   const grid = document.getElementById('productGrid');
   const filteredProducts = category === 'Todos'
@@ -37,6 +37,7 @@ function renderGrid(category) {
   });
 }
 
+// Função para abrir o modal de compra
 function abrirModal(productName, productPrice, productImage) {
   itemCount = 1;
   document.getElementById('modal-product-name').innerText = productName;
@@ -46,16 +47,19 @@ function abrirModal(productName, productPrice, productImage) {
   document.getElementById('modal').style.display = 'flex';
 }
 
+// Fecha o modal de compra
 function fecharModal() {
   document.getElementById('modal').style.display = 'none';
 }
 
+// Altera a quantidade no modal
 function alterarQuantidade(amount) {
   itemCount += amount;
   if (itemCount < 1) itemCount = 1;
   document.getElementById('modal-item-count').innerText = itemCount;
 }
 
+// Adiciona produto ao carrinho
 function addToCart() {
   const productName = document.getElementById('modal-product-name').innerText;
   const productPrice = document.getElementById('modal-product-price').innerText;
@@ -79,6 +83,7 @@ function addToCart() {
   fecharModal();
 }
 
+// Eventos para alternar entre categorias
 document.querySelectorAll('.category-dot').forEach(button => {
   button.addEventListener('click', () => {
     currentCategory = button.getAttribute('data-category');
@@ -88,19 +93,20 @@ document.querySelectorAll('.category-dot').forEach(button => {
   });
 });
 
-document.getElementById('cartIcon').addEventListener('click', function() {
+// Clique no carrinho
+document.getElementById('cartIcon').addEventListener('click', function () {
   window.location.href = 'carrinho.html';
 });
 
+// Exibe todos os produtos ao carregar
 renderGrid('Todos');
 
+// Exibe modal de aviso ao carregar a página
+window.onload = function () {
+  document.getElementById("modalEntrega").style.display = "flex";
+};
 
-  // Mostrar modal ao carregar a página
-  window.onload = function () {
-    document.getElementById("modalEntrega").style.display = "flex";
-  };
-
-  // Função renomeada para fechar o modal
-  function fecharModalAviso() {
-    document.getElementById("modalEntrega").style.display = "none";
-  }
+// Fecha modal de aviso
+function fecharModalAviso() {
+  document.getElementById("modalEntrega").style.display = "none";
+}
