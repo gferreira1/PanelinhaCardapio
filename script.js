@@ -103,10 +103,16 @@ renderGrid('Todos');
 window.onload = function () {
   document.getElementById("modalEntrega").style.display = "flex";
 
-  // Atualiza a contagem do carrinho com os itens do localStorage
+  // Atualiza o número do carrinho com base nos itens salvos
   cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-  document.getElementById('cartCount').innerText = cartCount;
+
+  const cartCountElement = document.getElementById('cartCount');
+  cartCountElement.innerText = cartCount;
+
+  // Mostra suavemente o número depois que for calculado
+  cartCountElement.classList.add('visible');
 };
+;
 ;
 
 // Fecha modal de aviso

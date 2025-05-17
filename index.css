@@ -322,17 +322,25 @@
       }
       
       /* Contagem do carrinho */
-      .cart-count {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: red;
-        color: white;
-        font-size: 0.65rem;
-        padding: 2px 5px;
-        border-radius: 50%;
-      }
-    
+   .cart-count {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 5px;
+  border-radius: 50%;
+  visibility: hidden; /* Oculta até o valor correto carregar */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cart-count.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
 
       body {
         font-family: Arial, sans-serif;
