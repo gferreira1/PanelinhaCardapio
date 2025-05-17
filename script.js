@@ -99,31 +99,38 @@ document.getElementById('cartIcon').addEventListener('click', function () {
 });
 
 // Exibe todos os produtos ao carregar
-renderGrid('Todos');
+
 window.onload = function () {
   // Mostra o aviso de entrega apenas uma vez por sessão
   if (!sessionStorage.getItem('avisoEntregaExibido')) {
-    document.getElementById("modalEntrega").style.display = "flex";
-    sessionStorage.setItem('avisoEntregaExibido', 'true');
+    const modal = document.getElementById("modalEntrega");
+    if (modal) {
+      modal.style.display = "flex";
+      sessionStorage.setItem('avisoEntregaExibido', 'true');
+    }
   }
 
   // Atualiza o número do carrinho com base nos itens salvos
   cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const cartCountElement = document.getElementById('cartCount');
-  cartCountElement.innerText = cartCount;
+  if (cartCountElement) {
+    cartCountElement.innerText = cartCount;
+    cartCountElement.classList.add('visible');
+  }
 
-  // Mostra suavemente o número depois que for calculado
-  cartCountElement.classList.add('visible');
+  // Renderiza os produtos após tudo estar carregado
+  renderGrid(currentCategory);
 };
-;
-;
-;
 
 // Fecha modal de aviso
 function fecharModalAviso() {
-  document.getElementById("modalEntrega").style.display = "none";
+  const modal = document.getElementById("modalEntrega");
+  if (modal) {
+    modal.style.display = "none";
+  }
 }
+
 
 
 
