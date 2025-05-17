@@ -101,7 +101,11 @@ document.getElementById('cartIcon').addEventListener('click', function () {
 // Exibe todos os produtos ao carregar
 renderGrid('Todos');
 window.onload = function () {
-  document.getElementById("modalEntrega").style.display = "flex";
+  // Mostra o aviso de entrega apenas uma vez por sessão
+  if (!sessionStorage.getItem('avisoEntregaExibido')) {
+    document.getElementById("modalEntrega").style.display = "flex";
+    sessionStorage.setItem('avisoEntregaExibido', 'true');
+  }
 
   // Atualiza o número do carrinho com base nos itens salvos
   cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -112,6 +116,7 @@ window.onload = function () {
   // Mostra suavemente o número depois que for calculado
   cartCountElement.classList.add('visible');
 };
+;
 ;
 ;
 
