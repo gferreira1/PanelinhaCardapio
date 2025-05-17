@@ -1,12 +1,12 @@
-let cartCount = 0;
 let itemCount = 1;
 let currentCategory = 'Todos';
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+let cartCount = cartItems.reduce((total, item) => total + item.quantity, 0); // Corrigido
 
 const produtos = [
   { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimao.webp' },
   { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
-  { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
+  { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
   { id: '4', category: 'Pizza', name: 'Pizza Broto 4 Queijos', price: 'R$ 25,00', image: './assets/images/pizzabrotoqueijo.webp' },
   { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa', price: 'R$ 30,00', image: './assets/images/lasanhacarne.webp' },
   { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 15,00', image: './assets/images/panqueca.webp' },
@@ -100,13 +100,21 @@ document.getElementById('cartIcon').addEventListener('click', function () {
 
 // Exibe todos os produtos ao carregar
 renderGrid('Todos');
-
-// Exibe modal de aviso ao carregar a página
 window.onload = function () {
   document.getElementById("modalEntrega").style.display = "flex";
+
+  // Atualiza a contagem do carrinho com os itens do localStorage
+  cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  document.getElementById('cartCount').innerText = cartCount;
 };
+;
 
 // Fecha modal de aviso
 function fecharModalAviso() {
   document.getElementById("modalEntrega").style.display = "none";
 }
+
+
+
+
+
