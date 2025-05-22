@@ -867,6 +867,7 @@
 @media (max-width: 500px) {
   #productGrid {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    margin-bottom: 58px;
   }
 
   .product-name, .product-price {

@@ -1,7 +1,7 @@
-// Variáveis de controle
+// Variáveis de controle (mantidas iguais)
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-// Renderiza o carrinho
+// Renderiza o carrinho (com mesmos IDs/classes)
 function renderCart() {
   const cartContent = document.getElementById('cartContent');
   cartContent.innerHTML = '';
@@ -49,25 +49,27 @@ function renderCart() {
   document.getElementById('checkoutButton').style.display = 'block';
 }
 
-// Remove item
+// Remove item (mantido igual)
 function removeFromCart(index) {
   cartItems.splice(index, 1);
   localStorage.setItem('cartItems', JSON.stringify(cartItems));
   renderCart();
 }
 
-// Fecha o modal
+// Fecha o modal (mantido igual)
 function closeModal() {
   const modal = document.getElementById('checkoutModal');
   if (modal) modal.style.display = 'none';
 }
 
-// Confirma a compra e envia pelo WhatsApp
+// Confirma a compra (adaptada para integrar com seu painel)
 function confirmCheckout() {
   const userName = document.getElementById('userName').value.trim();
   const userPhoneRaw = document.getElementById('userPhone').value.trim();
+  //const paymentMethod = document.getElementById('paymentMethod').value;
   const orderNotes = document.getElementById('orderNotes').value.trim();
 
+  // Validações (mantidas iguais)
   if (userName === '') {
     alert('Por favor, preencha seu nome.');
     return;
@@ -80,11 +82,37 @@ function confirmCheckout() {
     return;
   }
 
+  //if (!paymentMethod) {
+    //alert('Por favor, selecione uma forma de pagamento.');
+    //return;
+  //}
+
   closeModal();
 
+  // Cria o objeto do pedido no formato do seu painel
+  const newOrder = {
+    id: '#' + Math.floor(1000 + Math.random() * 9000),
+    cliente: userName,
+    valor: 'R$ ' + cartItems.reduce((sum, item) => {
+      return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
+    }, 0).toFixed(2).replace('.', ','),
+   // pagamento: paymentMethod,
+    observacoes: orderNotes,
+    itens: cartItems.map(item => `${item.quantity}x ${item.name}`).join(', '),
+    horario: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+    data: new Date().toLocaleDateString('pt-BR'), // ⬅️ 
+    status: 'recebido'
+  };
+
+  // Salva no localStorage do painel de pedidos
+  const existingOrders = JSON.parse(localStorage.getItem('pedidos')) || [];
+  existingOrders.push(newOrder);
+  localStorage.setItem('pedidos', JSON.stringify(existingOrders));
+
+  // Envia pelo WhatsApp (mantido igual)
   const emojiMap = {
     'Bolo': '🍰',
-    'Mini Pizza': '🍕',
+    'Mini Pizza': '🍕', 
     'Pizza Broto': '🍕',
     'Lasanha': '🍝',
     'Panqueca': '🥞'
@@ -97,27 +125,29 @@ function confirmCheckout() {
     message += `${emoji} ${item.name} - ${item.quantity} x ${item.price}\n`;
   });
 
-  const total = cartItems.reduce((sum, item) => {
-    return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
-  }, 0);
-
-  message += `\n💰 *Total:* R$ ${total.toFixed(2).replace('.', ',')}`;
+    message += `\n💰 *Total:* ${newOrder.valor}`;
+  //message += `\n💳 *Pagamento:* ${paymentMethod}`;
 
   if (orderNotes !== '') {
     message += `\n📝 *Observações:* ${orderNotes}`;
   }
 
   const encodedMessage = encodeURIComponent(message);
-  const vendedorPhone = '5551980533191';
-
+  const vendedorPhone = '55519921809353';
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
+  // Limpa o carrinho
   cartItems = [];
   localStorage.removeItem('cartItems');
   renderCart();
+
+  // Atualiza o painel de pedidos
+  if (typeof carregarPedidos === 'function') {
+    carregarPedidos();
+  }
 }
 
-// Inicia tudo ao carregar
+// Inicia tudo ao carregar (mantido igual)
 document.addEventListener('DOMContentLoaded', function () {
   renderCart();
 
