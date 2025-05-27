@@ -1,3 +1,13 @@
+import firebaseConfig from './firebase/firebaseConfig.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// Inicializa Firebase e Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+
 // Variáveis de controle (mantidas iguais)
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
@@ -63,13 +73,11 @@ function closeModal() {
 }
 
 // Confirma a compra (adaptada para integrar com seu painel)
-function confirmCheckout() {
+async function confirmCheckout() {
   const userName = document.getElementById('userName').value.trim();
   const userPhoneRaw = document.getElementById('userPhone').value.trim();
-  //const paymentMethod = document.getElementById('paymentMethod').value;
   const orderNotes = document.getElementById('orderNotes').value.trim();
 
-  // Validações (mantidas iguais)
   if (userName === '') {
     alert('Por favor, preencha seu nome.');
     return;
@@ -82,37 +90,40 @@ function confirmCheckout() {
     return;
   }
 
-  //if (!paymentMethod) {
-    //alert('Por favor, selecione uma forma de pagamento.');
-    //return;
-  //}
-
   closeModal();
 
-  // Cria o objeto do pedido no formato do seu painel
   const newOrder = {
     id: '#' + Math.floor(1000 + Math.random() * 9000),
     cliente: userName,
     valor: 'R$ ' + cartItems.reduce((sum, item) => {
       return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
     }, 0).toFixed(2).replace('.', ','),
-   // pagamento: paymentMethod,
     observacoes: orderNotes,
     itens: cartItems.map(item => `${item.quantity}x ${item.name}`).join(', '),
-    horario: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-    data: new Date().toLocaleDateString('pt-BR'), // ⬅️ 
+    horario: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    data: new Date().toLocaleDateString('pt-BR'),
     status: 'recebido'
   };
 
-  // Salva no localStorage do painel de pedidos
-  const existingOrders = JSON.parse(localStorage.getItem('pedidos')) || [];
-  existingOrders.push(newOrder);
-  localStorage.setItem('pedidos', JSON.stringify(existingOrders));
+  try {
+    // 🔥 Salva no Firebase
+    const docRef = await addDoc(collection(db, "pedidos"), newOrder);
+    console.log("Pedido salvo no Firebase com ID:", docRef.id);
 
-  // Envia pelo WhatsApp (mantido igual)
+    // 💾 Salva também no localStorage
+    const existingOrders = JSON.parse(localStorage.getItem('pedidos')) || [];
+    existingOrders.push(newOrder);
+    localStorage.setItem('pedidos', JSON.stringify(existingOrders));
+  } catch (e) {
+    console.error("Erro ao salvar pedido no Firebase:", e);
+    alert("Erro ao registrar o pedido. Tente novamente.");
+    return;
+  }
+
+  // 📲 Envia mensagem no WhatsApp
   const emojiMap = {
     'Bolo': '🍰',
-    'Mini Pizza': '🍕', 
+    'Mini Pizza': '🍕',
     'Pizza Broto': '🍕',
     'Lasanha': '🍝',
     'Panqueca': '🥞'
@@ -125,9 +136,7 @@ function confirmCheckout() {
     message += `${emoji} ${item.name} - ${item.quantity} x ${item.price}\n`;
   });
 
-    message += `\n💰 *Total:* ${newOrder.valor}`;
-  //message += `\n💳 *Pagamento:* ${paymentMethod}`;
-
+  message += `\n💰 *Total:* ${newOrder.valor}`;
   if (orderNotes !== '') {
     message += `\n📝 *Observações:* ${orderNotes}`;
   }
@@ -136,16 +145,16 @@ function confirmCheckout() {
   const vendedorPhone = '55519921809353';
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
-  // Limpa o carrinho
+  // 🧹 Limpa carrinho e atualiza visual
   cartItems = [];
   localStorage.removeItem('cartItems');
   renderCart();
 
-  // Atualiza o painel de pedidos
   if (typeof carregarPedidos === 'function') {
     carregarPedidos();
   }
 }
+
 
 // Inicia tudo ao carregar (mantido igual)
 document.addEventListener('DOMContentLoaded', function () {
@@ -170,3 +179,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+// Firebase
+
+window.confirmCheckout = confirmCheckout;
+
+
+
+
+
