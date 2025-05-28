@@ -142,7 +142,7 @@ async function confirmCheckout() {
   }
 
   const encodedMessage = encodeURIComponent(message);
-  const vendedorPhone = '55519921809353';
+  const vendedorPhone = '555180533191';
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
   // 🧹 Limpa carrinho e atualiza visual
