@@ -7,8 +7,8 @@ const produtos = [
   { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimao.webp' },
   { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
   { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
-  { id: '4', category: 'Pizza', name: 'Pizza Broto 4 Queijos', price: 'R$ 25,00', image: './assets/images/pizzabrotoqueijo.webp' },
-  { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa', price: 'R$ 30,00', image: './assets/images/lasanhacarne.webp' },
+  { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bancon', price: 'R$ 25,00', image: './assets/images/brotomilhoo.png' },
+  { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
   { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 15,00', image: './assets/images/panqueca.webp' },
   { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracujá', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
   { id: '8', category: 'Bolo', name: 'Bolo de Pote de Paçoca', price: 'R$ 12,00', image: './assets/images/pacoca.jpeg' },
@@ -17,6 +17,9 @@ const produtos = [
   { id: '10', category: 'Bolo', name: 'Bolo de Pote de Leite Ninho', price: 'R$ 12,00', image: './assets/images/Recheio-de-leite-ninho.jpg' },
   { id: '11', category: 'Pizza', name: 'Pizza Broto Frango ', price: 'R$ 14,50', image: './assets/images/minipizzafrango.jpg' },
   { id: '12', category: 'Pizza', name: 'Pizza Broto Caçabresa ', price: 'R$ 14,50', image: './assets/images/pizzabrotocalabresa.jpg' },
+  { id: '13', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
+  { id: '14', category: 'Lasanha', name: 'Lasanha Bolonhesa 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
+  { id: '15', category: 'Lasanha', name: 'Lasanha Frango 7500g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
 
   
 ];
