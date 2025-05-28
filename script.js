@@ -7,7 +7,7 @@ const produtos = [
   { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimao.webp' },
   { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
   { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
-  { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bancon', price: 'R$ 25,00', image: './assets/images/brotomilhoo.png' },
+  { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bancon', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
   { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
   { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 15,00', image: './assets/images/panqueca.webp' },
   { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracujá', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
