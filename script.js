@@ -16,6 +16,7 @@ const produtos = [
   { id: '9', category: 'Bolo', name: 'Bolo de Pote de Prestigio', price: 'R$ 12,00', image: './assets/images/bolococo.jpg' },
   { id: '10', category: 'Bolo', name: 'Bolo de Pote de Leite Ninho', price: 'R$ 12,00', image: './assets/images/Recheio-de-leite-ninho.jpg' },
   { id: '11', category: 'Pizza', name: 'Pizza Broto Frango ', price: 'R$ 14,50', image: './assets/images/minipizzafrango.jpg' },
+  { id: '12', category: 'Pizza', name: 'Pizza Broto Caçabresa ', price: 'R$ 14,50', image: './assets/images/pizzabrotocalabresa.jpg' },
 
   
 ];
