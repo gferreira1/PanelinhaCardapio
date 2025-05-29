@@ -92,18 +92,26 @@ async function confirmCheckout() {
 
   closeModal();
 
-  const newOrder = {
-    id: '#' + Math.floor(1000 + Math.random() * 9000),
-    cliente: userName,
-    valor: 'R$ ' + cartItems.reduce((sum, item) => {
-      return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
-    }, 0).toFixed(2).replace('.', ','),
-    observacoes: orderNotes,
-    itens: cartItems.map(item => `${item.quantity}x ${item.name}`).join(', '),
-    horario: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    data: new Date().toLocaleDateString('pt-BR'),
-    status: 'recebido'
-  };
+const newOrder = {
+  id: '#' + Math.floor(1000 + Math.random() * 9000),
+  cliente: userName,
+  valor: 'R$ ' + cartItems.reduce((sum, item) => {
+    return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
+  }, 0).toFixed(2).replace('.', ','),
+  observacoes: orderNotes,
+  itens: cartItems.map(item => ({
+    nome: item.name,
+    quantidade: item.quantity,
+    valorUnitario: item.price,
+    valorTotal: 'R$ ' + (
+      parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity
+    ).toFixed(2).replace('.', ',')
+  })),
+  horario: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  data: new Date().toLocaleDateString('pt-BR'),
+  status: 'recebido'
+};
+
 
   try {
     // 🔥 Salva no Firebase
@@ -142,7 +150,7 @@ async function confirmCheckout() {
   }
 
   const encodedMessage = encodeURIComponent(message);
-  const vendedorPhone = '555180533191';
+  const vendedorPhone = '55519921809353';
   window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
   // 🧹 Limpa carrinho e atualiza visual

@@ -13,13 +13,13 @@ const produtos = [
   { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracujá', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
   { id: '8', category: 'Bolo', name: 'Bolo de Pote de Paçoca', price: 'R$ 12,00', image: './assets/images/pacoca.jpeg' },
   { id: '9', category: 'Bolo', name: 'Bolo de Pote de Morango', price: 'R$ 12,00', image: './assets/images/bolomorango.jpg' },
-  { id: '9', category: 'Bolo', name: 'Bolo de Pote de Prestigio', price: 'R$ 12,00', image: './assets/images/bolococo.jpg' },
+  { id: '16', category: 'Bolo', name: 'Bolo de Pote de Prestigio', price: 'R$ 12,00', image: './assets/images/bolococo.jpg' },
   { id: '10', category: 'Bolo', name: 'Bolo de Pote de Leite Ninho', price: 'R$ 12,00', image: './assets/images/Recheio-de-leite-ninho.jpg' },
   { id: '11', category: 'Pizza', name: 'Pizza Broto Frango ', price: 'R$ 14,50', image: './assets/images/minipizzafrango.jpg' },
-  { id: '12', category: 'Pizza', name: 'Pizza Broto Caçabresa ', price: 'R$ 14,50', image: './assets/images/pizzabrotocalabresa.jpg' },
+  { id: '12', category: 'Pizza', name: 'Pizza Broto Calabresa ', price: 'R$ 14,50', image: './assets/images/pizzabrotocalabresa.jpg' },
   { id: '13', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
   { id: '14', category: 'Lasanha', name: 'Lasanha Bolonhesa 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '15', category: 'Lasanha', name: 'Lasanha Frango 7500g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
+  { id: '15', category: 'Lasanha', name: 'Lasanha Frango 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
 
   
 ];
