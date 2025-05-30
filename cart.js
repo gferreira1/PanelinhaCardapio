@@ -35,6 +35,7 @@ function renderCart() {
     const cartItemElement = document.createElement('div');
     cartItemElement.classList.add('cart-item');
 
+    // Cria conteúdo HTML do item
     cartItemElement.innerHTML = `
       <img src="${item.image}" alt="${item.name}" class="cart-item-image">
       <div class="cart-item-info">
@@ -42,12 +43,20 @@ function renderCart() {
         <p class="cart-item-quantity">Qtd: ${item.quantity} x ${item.price}</p>
         <p class="cart-item-total">Total: R$ ${itemTotal.toFixed(2).replace('.', ',')}</p>
       </div>
-      <button class="remove-item" onclick="removeFromCart(${index})">Excluir</button>
     `;
 
+    // Cria botão de excluir com event listener
+    const removeButton = document.createElement('button');
+    removeButton.classList.add('remove-item');
+    removeButton.textContent = 'Excluir';
+    removeButton.addEventListener('click', () => removeFromCart(index));
+    cartItemElement.appendChild(removeButton);
+
+    // Adiciona ao carrinho
     cartContent.appendChild(cartItemElement);
   });
 
+  // Total geral
   const totalElement = document.createElement('div');
   totalElement.classList.add('cart-total');
   totalElement.innerHTML = `<h3>Total: R$ ${total.toFixed(2).replace('.', ',')}</h3>`;
@@ -58,6 +67,7 @@ function renderCart() {
 
   document.getElementById('checkoutButton').style.display = 'block';
 }
+
 
 // Remove item (mantido igual)
 function removeFromCart(index) {
@@ -191,6 +201,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // Firebase
 
 window.confirmCheckout = confirmCheckout;
+
+window.removeFromCart = removeFromCart;
+
 
 
 

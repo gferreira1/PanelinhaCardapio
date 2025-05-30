@@ -4,7 +4,7 @@ let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 let cartCount = cartItems.reduce((total, item) => total + item.quantity, 0); // Corrigido
 
 const produtos = [
-  { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimao.webp' },
+  { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimão.jpg' },
   { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
   { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
   { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bancon', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
@@ -112,35 +112,49 @@ document.getElementById('cartIcon').addEventListener('click', function () {
 // Exibe todos os produtos ao carregar
 
 window.onload = function () {
-  // Mostra o aviso de entrega apenas uma vez por sessão
-  if (!sessionStorage.getItem('avisoEntregaExibido')) {
+  const avisoKey = 'avisoEntregaExibido';
+  const agora = Date.now();
+
+  const avisoSalvo = localStorage.getItem(avisoKey);
+
+  if (!avisoSalvo || agora - Number(avisoSalvo) > 24 * 60 * 60 * 1000) {
+    console.log('Exibindo aviso...');
     const modal = document.getElementById("modalEntrega");
     if (modal) {
       modal.style.display = "flex";
-      sessionStorage.setItem('avisoEntregaExibido', 'true');
+      localStorage.setItem(avisoKey, agora); // Salva timestamp atual
     }
   }
 
-  // Atualiza o número do carrinho com base nos itens salvos
-  cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-
+  // Atualiza o carrinho
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const cartCountElement = document.getElementById('cartCount');
   if (cartCountElement) {
     cartCountElement.innerText = cartCount;
     cartCountElement.classList.add('visible');
   }
 
-  // Renderiza os produtos após tudo estar carregado
+  // Renderiza os produtos
   renderGrid(currentCategory);
 };
 
-// Fecha modal de aviso
 function fecharModalAviso() {
   const modal = document.getElementById("modalEntrega");
   if (modal) {
     modal.style.display = "none";
   }
 }
+
+
+  // Fecha modal de aviso
+function fecharModalAviso() {
+  const modal = document.getElementById("modalEntrega");
+  if (modal) {
+    modal.style.display = "none";
+  }
+}
+
+
 
 
 
