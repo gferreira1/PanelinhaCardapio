@@ -20,6 +20,9 @@ const produtos = [
   { id: '13', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
   { id: '14', category: 'Lasanha', name: 'Lasanha Bolonhesa 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
   { id: '15', category: 'Lasanha', name: 'Lasanha Frango 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
+  { id: '16', category: 'Pizza', name: 'Mini Pizza Frango', price: 'R$ 0,92', image: './assets/images/minipizzafrangoo.jpg' },
+  { id: '17', category: 'Pizza', name: 'Mini Pizza Margherita', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
+  { id: '17', category: 'Pizza', name: 'Mini Pizza Milho e bacon', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
 
   
 ];
@@ -138,14 +141,6 @@ window.onload = function () {
   renderGrid(currentCategory);
 };
 
-function fecharModalAviso() {
-  const modal = document.getElementById("modalEntrega");
-  if (modal) {
-    modal.style.display = "none";
-  }
-}
-
-
   // Fecha modal de aviso
 function fecharModalAviso() {
   const modal = document.getElementById("modalEntrega");
@@ -153,6 +148,8 @@ function fecharModalAviso() {
     modal.style.display = "none";
   }
 }
+
+
 
 
 
