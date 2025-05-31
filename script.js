@@ -6,7 +6,7 @@ let cartCount = cartItems.reduce((total, item) => total + item.quantity, 0); // 
 const produtos = [
   { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimão.jpg' },
   { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
-  { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
+  { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
   { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bancon', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
   { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
   { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 15,00', image: './assets/images/panqueca.webp' },
@@ -20,9 +20,9 @@ const produtos = [
   { id: '13', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
   { id: '14', category: 'Lasanha', name: 'Lasanha Bolonhesa 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
   { id: '15', category: 'Lasanha', name: 'Lasanha Frango 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '16', category: 'Pizza', name: 'Mini Pizza Frango', price: 'R$ 0,92', image: './assets/images/minipizzafrangoo.jpg' },
-  { id: '17', category: 'Pizza', name: 'Mini Pizza Margherita', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
-  { id: '17', category: 'Pizza', name: 'Mini Pizza Milho e bacon', price: 'R$ 0,92', image: './assets/images/minipizza calabresa.webp' },
+  { id: '16', category: 'Pizza', name: 'Mini Pizza Frango', price: 'R$ 0,90', image: './assets/images/minipizzafrangoo.jpg' },
+  { id: '17', category: 'Pizza', name: 'Mini Pizza Margherita', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
+  { id: '17', category: 'Pizza', name: 'Mini Pizza Milho e bacon', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
 
   
 ];
