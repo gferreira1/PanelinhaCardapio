@@ -9,7 +9,7 @@ const produtos = [
   { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
   { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bancon', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
   { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 15,00', image: './assets/images/panqueca.webp' },
+  { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
   { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracujá', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
   { id: '8', category: 'Bolo', name: 'Bolo de Pote de Paçoca', price: 'R$ 12,00', image: './assets/images/pacoca.jpeg' },
   { id: '9', category: 'Bolo', name: 'Bolo de Pote de Morango', price: 'R$ 12,00', image: './assets/images/bolomorango.jpg' },
@@ -23,6 +23,7 @@ const produtos = [
   { id: '17', category: 'Pizza', name: 'Mini Pizza Frango', price: 'R$ 0,90', image: './assets/images/minipizzafrangoo.jpg' },
   { id: '18', category: 'Pizza', name: 'Mini Pizza Margherita', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
   { id: '19', category: 'Pizza', name: 'Mini Pizza Milho e bacon', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
+  { id: '20', category: 'Panqueca', name: 'Panqueca de Carne', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
 
   
 ];
@@ -118,18 +119,26 @@ window.onload = function () {
   const avisoKey = 'avisoEntregaExibido';
   const agora = Date.now();
 
-  const avisoSalvo = localStorage.getItem(avisoKey);
+  const avisoSalvoStr = localStorage.getItem(avisoKey);
+  const avisoSalvo = avisoSalvoStr ? Number(avisoSalvoStr) : null;
 
-  if (!avisoSalvo || agora - Number(avisoSalvo) > 24 * 60 * 60 * 1000) {
-    console.log('Exibindo aviso...');
+  console.log('Carregando página...');
+  console.log('Timestamp salvo:', avisoSalvo);
+  console.log('Timestamp atual:', agora);
+
+  if (!avisoSalvo || (agora - avisoSalvo) > 24 * 60 * 60 * 1000) {
+    console.log('Exibindo aviso de entrega...');
     const modal = document.getElementById("modalEntrega");
     if (modal) {
       modal.style.display = "flex";
-      localStorage.setItem(avisoKey, agora); // Salva timestamp atual
     }
+    localStorage.setItem(avisoKey, agora.toString());
+    console.log('Timestamp salvo no localStorage.');
+  } else {
+    console.log('Aviso já exibido dentro do prazo.');
   }
 
-  // Atualiza o carrinho
+  // Atualização do carrinho e grid
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const cartCountElement = document.getElementById('cartCount');
   if (cartCountElement) {
@@ -137,9 +146,11 @@ window.onload = function () {
     cartCountElement.classList.add('visible');
   }
 
-  // Renderiza os produtos
   renderGrid(currentCategory);
 };
+
+
+
 
   // Fecha modal de aviso
 function fecharModalAviso() {
