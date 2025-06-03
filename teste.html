@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loja SPA</title>
+  <link rel="stylesheet" href="teste.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-- Página Principal -->
+  <div id="paginaLoja" class="container">
+    <!-- Header -->
+    <div class="header-top">
+      <div><img src="./assets/images/panelalogo.png" alt="Logo" class="logo"></div>
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="Pesquisar....">
+        <button class="search-button"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+
+    <!-- Categorias -->
+    <div class="category-container">
+      <button class="category-dot" data-category="Todos"><img src="./assets/images/cat_all.png" class="iconecategory"></button>
+      <button class="category-dot" data-category="Bolo"><img src="./assets/images/cat_bolo.png" class="iconecategory"></button>
+      <button class="category-dot" data-category="Pizza"><img src="./assets/images/cat_pizza.png" class="iconecategory"></button>
+      <button class="category-dot" data-category="Lasanha"><img src="./assets/images/cat_lasanha.png" class="iconecategory"></button>
+      <button class="category-dot" data-category="Panqueca"><img src="./assets/images/cat_panqueca.png" class="iconecategory"></button>
+    </div>
+
+    <!-- Produtos -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- Modal de Compra -->
+    <div id="modal" class="modal">
+      <div class="modal-conteudo">
+        <span class="fechar" onclick="fecharModal()">&times;</span>
+        <img id="modal-product-image" class="product-image">
+        <h2 id="modal-product-name" class="product-name"></h2>
+        <span id="modal-product-price" class="product-price"></span>
+        <div class="quantity-controls">
+          <button onclick="alterarQuantidade(-1)">-</button>
+          <span id="modal-item-count">1</span>
+          <button onclick="alterarQuantidade(1)">+</button>
+        </div>
+        <button onclick="addToCart()">Adicionar ao Carrinho</button>
+      </div>
+    </div>
+
+    <!-- Modal de Entrega -->
+    <div class="modal-overlay" id="modalEntrega">
+      <div class="modal-content">
+        <button class="close-btn" onclick="fecharModalAviso()">×</button>
+        <h2>Aviso de Entrega</h2>
+        <p>As entregas são feitas toda <strong>Terça-feira</strong> e <strong>Sexta-feira</strong>.</p>
+      </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="footer-mobile">
+      <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
+      <a href="#" class="footer-icon" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+
+    <!-- Carrinho Flutuante -->
+    <div class="floating-cart" id="cartIcon">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCount" class="cart-count">0</span>
+    </div>
+  </div>
+
+  <!-- Página Carrinho SPA -->
+  <section id="paginaCarrinho" style="display: none;">
+    <!-- Header com logo e botão de voltar -->
+    <div class="header-top">
+      <div><img src="./assets/images/panelalogo.png" alt="Logo" class="logo"></div>
+
+    </div>
+
+    <!-- Modal de Finalização de Compra -->
+    <div id="checkoutModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Finalizar Compra</h2>
+        <input type="text" id="userName" placeholder="Seu nome" required><br><br>
+        <input type="text" id="userPhone" placeholder="Seu telefone (WhatsApp)" required><br><br>
+        <textarea id="orderNotes" placeholder="Observações" rows="3" style="width: 100%; margin-top: 10px;"></textarea>
+        <br><br>
+        <button onclick="confirmCheckout()">Confirmar</button>
+      </div>
+    </div>
+
+    <!-- Lista de Itens no Carrinho -->
+    <div class="container">
+      <div id="carrinhoLista"></div>
+      <div id="cartTotal" style="margin: 15px 0; font-weight: bold;">Total: R$ 0,00</div>
+      <button id="checkoutButton" class="checkoutButton" onclick="openModal()">Finalizar Compra</button>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="footer-mobile">
+      <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
+      <a href="#" class="footer-icon" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+
+    <!-- Carrinho Flutuante (Voltar) -->
+    <div onclick="voltarParaLoja()" class="floating-cart">
+      <i class="fas fa-home"></i>
+    </div>
+  </section>
+
+  <script>
+    function voltarParaLoja() {
+      document.getElementById("paginaCarrinho").style.display = "none";
+      document.getElementById("paginaLoja").style.display = "block";
+    }
+  </script>
+  <script src="teste.js"></script>
+</body>
+</html>

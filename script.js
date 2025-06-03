@@ -9,7 +9,7 @@ const produtos = [
   { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
   { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bancon', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
   { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
+  { id: '6', category: 'Panqueca', name: 'Panqueca de Frango 500g', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
   { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracujá', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
   { id: '8', category: 'Bolo', name: 'Bolo de Pote de Paçoca', price: 'R$ 12,00', image: './assets/images/pacoca.jpeg' },
   { id: '9', category: 'Bolo', name: 'Bolo de Pote de Morango', price: 'R$ 12,00', image: './assets/images/bolomorango.jpg' },
@@ -23,7 +23,9 @@ const produtos = [
   { id: '17', category: 'Pizza', name: 'Mini Pizza Frango', price: 'R$ 0,90', image: './assets/images/minipizzafrangoo.jpg' },
   { id: '18', category: 'Pizza', name: 'Mini Pizza Margherita', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
   { id: '19', category: 'Pizza', name: 'Mini Pizza Milho e bacon', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
-  { id: '20', category: 'Panqueca', name: 'Panqueca de Carne', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
+  { id: '20', category: 'Panqueca', name: 'Panqueca de Carne 500g', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
+  { id: '21', category: 'Panqueca', name: 'Panqueca de Carne 750g', price: 'R$ 16,00', image: './assets/images/panqueca.webp' },
+  { id: '22', category: 'Panqueca', name: 'Panqueca de Carne 750g', price: 'R$ 16,00', image: './assets/images/panqueca.webp' },
 
   
 ];
