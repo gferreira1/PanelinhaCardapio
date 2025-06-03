@@ -139,41 +139,42 @@ const newOrder = {
   }
 
   // 📲 Envia mensagem no WhatsApp
-  const emojiMap = {
-    'Bolo': '🍰',
-    'Mini Pizza': '🍕',
-    'Pizza Broto': '🍕',
-    'Lasanha': '🍝',
-    'Panqueca': '🥞'
-  };
+// 📲 Envia mensagem no WhatsApp
+const emojiMap = {
+  'Bolo': '🍰',
+  'Mini Pizza': '🍕',
+  'Pizza Broto': '🍕',
+  'Lasanha': '🍝',
+  'Panqueca': '🥞'
+};
 
-  // ➕ Adiciona email para pagamento via Pix 
-  message += `\n📧 *Chave Pix (E-mail):* pix.paneladelicias@gmail.com`;
+let message = `👤 *Nome:* ${userName}\n📱 *Tel:* (${userPhone.substring(0, 2)}) ${userPhone.substring(2)}\n📦 *Resumo do Pedido:*\n\n`;
 
-  let message = `👤 *Nome:* ${userName}\n📱 *Tel:* (${userPhone.substring(0, 2)}) ${userPhone.substring(2)}\n📦 *Resumo do Pedido:*\n\n`;
+cartItems.forEach(item => {
+  const emoji = emojiMap[item.category] || '🛒';
+  message += `${emoji} ${item.name} - ${item.quantity} x ${item.price}\n`;
+});
 
-  cartItems.forEach(item => {
-    const emoji = emojiMap[item.category] || '🛒';
-    message += `${emoji} ${item.name} - ${item.quantity} x ${item.price}\n`;
-  });
+message += `\n💰 *Total:* ${newOrder.valor}`;
+if (orderNotes !== '') {
+  message += `\n📝 *Observações:* ${orderNotes}`;
+}
 
-  message += `\n💰 *Total:* ${newOrder.valor}`;
-  if (orderNotes !== '') {
-    message += `\n📝 *Observações:* ${orderNotes}`;
-  }
+// ➕ Adiciona email para pagamento via Pix
+message += `\n📧 *Chave Pix (E-mail):* pix.paneladelicias@gmail.com`;
 
-  const encodedMessage = encodeURIComponent(message);
-  const vendedorPhone = '5551980533191';
-  window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
+const encodedMessage = encodeURIComponent(message);
+const vendedorPhone = '5551980533191';
+window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
-  // 🧹 Limpa carrinho e atualiza visual
-  cartItems = [];
-  localStorage.removeItem('cartItems');
-  renderCart();
+// 🧹 Limpa carrinho e atualiza visual
+cartItems = [];
+localStorage.removeItem('cartItems');
+renderCart();
 
-  if (typeof carregarPedidos === 'function') {
-    carregarPedidos();
-  }
+if (typeof carregarPedidos === 'function') {
+  carregarPedidos();
+}
 }
 
 
