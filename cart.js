@@ -147,6 +147,9 @@ const newOrder = {
     'Panqueca': '🥞'
   };
 
+  // ➕ Adiciona email para pagamento via Pix 
+  message += `\n📧 *Chave Pix (E-mail):* pix.paneladelicias@gmail.com`;
+
   let message = `👤 *Nome:* ${userName}\n📱 *Tel:* (${userPhone.substring(0, 2)}) ${userPhone.substring(2)}\n📦 *Resumo do Pedido:*\n\n`;
 
   cartItems.forEach(item => {

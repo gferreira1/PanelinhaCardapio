@@ -169,3 +169,9 @@ function atualizarCarrinho() {
   document.getElementById('totalCarrinho').innerText = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
 }
 
+
+    function voltarParaLoja() {
+      document.getElementById("paginaCarrinho").style.display = "none";
+      document.getElementById("paginaLoja").style.display = "block";
+    }
+

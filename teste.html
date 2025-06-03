@@ -59,6 +59,7 @@
 
     <!-- Rodapé -->
     <div class="footer-mobile">
+      <a href="#" class="footer-icon"><i class="fas fa-home"></i></a>
       <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
       <a href="#" class="footer-icon" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></a>
     </div>
@@ -72,10 +73,9 @@
 
   <!-- Página Carrinho SPA -->
   <section id="paginaCarrinho" style="display: none;">
-    <!-- Header com logo e botão de voltar -->
+    <!-- Header com logo (casinha removida) -->
     <div class="header-top">
       <div><img src="./assets/images/panelalogo.png" alt="Logo" class="logo"></div>
-
     </div>
 
     <!-- Modal de Finalização de Compra -->
@@ -85,7 +85,7 @@
         <h2>Finalizar Compra</h2>
         <input type="text" id="userName" placeholder="Seu nome" required><br><br>
         <input type="text" id="userPhone" placeholder="Seu telefone (WhatsApp)" required><br><br>
-        <textarea id="orderNotes" placeholder="Observações" rows="3" style="width: 100%; margin-top: 10px;"></textarea>
+        <textarea id="orderNotes" placeholder="Observações (ex: sem cobertura, entregar às 14h)" rows="3" style="width: 100%; margin-top: 10px;"></textarea>
         <br><br>
         <button onclick="confirmCheckout()">Confirmar</button>
       </div>
@@ -94,28 +94,23 @@
     <!-- Lista de Itens no Carrinho -->
     <div class="container">
       <div id="carrinhoLista"></div>
-      <div id="cartTotal" style="margin: 15px 0; font-weight: bold;">Total: R$ 0,00</div>
       <button id="checkoutButton" class="checkoutButton" onclick="openModal()">Finalizar Compra</button>
     </div>
 
     <!-- Rodapé -->
     <div class="footer-mobile">
+      <a href="#" class="footer-icon"><i class="fas fa-home"></i></a>
       <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
       <a href="#" class="footer-icon" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></a>
     </div>
 
-    <!-- Carrinho Flutuante (Voltar) -->
-    <div onclick="voltarParaLoja()" class="floating-cart">
+    <!-- Carrinho Flutuante com botão de voltar (agora é uma casinha) -->
+    <div onclick="voltarParaLoja()" class="floating-cart" id="cartIcon">
       <i class="fas fa-home"></i>
+      <span id="cartCount" class="cart-count">0</span>
     </div>
   </section>
 
-  <script>
-    function voltarParaLoja() {
-      document.getElementById("paginaCarrinho").style.display = "none";
-      document.getElementById("paginaLoja").style.display = "block";
-    }
-  </script>
   <script src="teste.js"></script>
 </body>
 </html>
