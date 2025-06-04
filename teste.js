@@ -1,4 +1,5 @@
-// === SPA - Alternância de páginas sem recarregar ===
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const lojaSection = document.getElementById("paginaLoja");
   const carrinhoSection = document.getElementById("paginaCarrinho");
@@ -16,12 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
       lojaSection.style.display = "block";
     });
   });
+
+  // Tornar funções acessíveis globalmente para uso inline no HTML
+  window.irParaCarrinho = irParaCarrinho;
+  window.voltarParaLoja = voltarParaLoja;
+  window.abrirModal = abrirModal;
+  window.fecharModal = fecharModal;
+  window.alterarQuantidade = alterarQuantidade;
+  window.addToCart = addToCart;
+  window.removerItem = removerItem;
+  window.fecharModalAviso = fecharModalAviso;
+
+  atualizarContadorCarrinho();
+  renderGrid(currentCategory);
 });
 
 let itemCount = 1;
 let currentCategory = 'Todos';
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-let cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
 // Lista de produtos
 const produtos = [
@@ -46,7 +59,7 @@ const produtos = [
   { id: '19', category: 'Panqueca', name: 'Panqueca de Carne', price: 'R$ 14,00', image: './assets/images/panqueca.webp' }
 ];
 
-// Renderiza os produtos
+// Renderiza produtos filtrados por categoria
 function renderGrid(category) {
   const grid = document.getElementById('productGrid');
   const filteredProducts = category === 'Todos' ? produtos : produtos.filter(p => p.category === category);
@@ -64,7 +77,7 @@ function renderGrid(category) {
   });
 }
 
-// Modal
+// Modal de compra
 function abrirModal(nome, preco, imagem) {
   itemCount = 1;
   document.getElementById('modal-product-name').innerText = nome;
@@ -97,12 +110,18 @@ function addToCart() {
   }
 
   localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  cartCount += itemCount;
-  document.getElementById('cartCount').innerText = cartCount;
+  atualizarContadorCarrinho();
   fecharModal();
 }
 
-// Categorias
+// Atualiza o contador de itens no ícone do carrinho
+function atualizarContadorCarrinho() {
+  const contador = document.getElementById('cartCount');
+  const totalItens = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  contador.innerText = totalItens;
+}
+
+// Filtro por categorias (pontos/circulos)
 document.querySelectorAll('.category-dot').forEach(btn => {
   btn.addEventListener('click', () => {
     currentCategory = btn.getAttribute('data-category');
@@ -112,7 +131,7 @@ document.querySelectorAll('.category-dot').forEach(btn => {
   });
 });
 
-// Aviso de entrega
+// Modal de aviso de entrega (uma vez por 24h)
 window.onload = function () {
   const avisoKey = 'avisoEntregaExibido';
   const agora = Date.now();
@@ -121,16 +140,13 @@ window.onload = function () {
     document.getElementById("modalEntrega").style.display = "flex";
     localStorage.setItem(avisoKey, agora.toString());
   }
-
-  document.getElementById('cartCount').innerText = cartCount;
-  renderGrid(currentCategory);
 };
 
 function fecharModalAviso() {
   document.getElementById("modalEntrega").style.display = "none";
 }
 
-// Carrinho
+// Renderiza itens do carrinho na página carrinho
 function atualizarCarrinho() {
   const lista = document.getElementById('carrinhoLista');
   lista.innerHTML = '';
@@ -138,6 +154,7 @@ function atualizarCarrinho() {
   if (cartItems.length === 0) {
     lista.innerHTML = '<p style="padding: 20px; text-align: center;">Seu carrinho está vazio.</p>';
     document.getElementById('totalCarrinho').innerText = 'R$ 0,00';
+    atualizarContadorCarrinho();
     return;
   }
 
@@ -167,11 +184,110 @@ function atualizarCarrinho() {
   });
 
   document.getElementById('totalCarrinho').innerText = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+  atualizarContadorCarrinho();
 }
 
+function removerItem(index) {
+  cartItems.splice(index, 1);
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  atualizarCarrinho();
+}
 
-    function voltarParaLoja() {
-      document.getElementById("paginaCarrinho").style.display = "none";
-      document.getElementById("paginaLoja").style.display = "block";
+// Navegação entre telas loja e carrinho
+function voltarParaLoja() {
+  document.getElementById("paginaCarrinho").style.display = "none";
+  document.getElementById("paginaLoja").style.display = "block";
+}
+
+function irParaCarrinho() {
+  document.getElementById("paginaLoja").style.display = "none";
+  document.getElementById("paginaCarrinho").style.display = "block";
+  atualizarCarrinho();
+}
+
+// Funções do modal checkout WhatsApp
+document.addEventListener('DOMContentLoaded', () => {
+  const checkoutModal = document.getElementById('checkoutModal');
+  const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
+  const checkoutConfirmBtn = document.getElementById('checkoutConfirmBtn');
+
+  function openCheckoutModal() {
+    if(cartItems.length === 0) {
+      alert('Seu carrinho está vazio.');
+      return;
+    }
+    checkoutModal.style.display = 'flex';
+  }
+
+  function closeCheckoutModal() {
+    checkoutModal.style.display = 'none';
+    document.getElementById('userName').value = '';
+    document.getElementById('userPhone').value = '';
+    document.getElementById('userObs').value = '';
+  }
+
+  function validateCheckout() {
+    const name = document.getElementById('userName').value.trim();
+    const phone = document.getElementById('userPhone').value.trim();
+    if (!name) {
+      alert('Por favor, insira seu nome.');
+      return false;
+    }
+    if (!phone || !/^\d{10,11}$/.test(phone)) {
+      alert('Por favor, insira um telefone válido com 10 ou 11 números.');
+      return false;
+    }
+    return true;
+  }
+
+  function confirmCheckout() {
+    if (!validateCheckout()) return;
+
+    const name = document.getElementById('userName').value.trim();
+    const phone = document.getElementById('userPhone').value.trim();
+    const obs = document.getElementById('userObs').value.trim();
+
+    if (cartItems.length === 0) {
+      alert('Seu carrinho está vazio.');
+      closeCheckoutModal();
+      return;
     }
 
+    // Monta mensagem para WhatsApp
+    let message = `*Novo pedido de ${name}*\nTelefone: ${phone}\n\nItens:\n`;
+    cartItems.forEach(item => {
+      // preço como número para exibir no pedido
+      const precoNum = parseFloat(item.price.replace('R$', '').replace(',', '.'));
+      message += `- ${item.name} x${item.quantity} = R$${(precoNum * item.quantity).toFixed(2)}\n`;
+    });
+    message += `\nObservações: ${obs || 'Nenhuma'}\n`;
+
+    // Link para WhatsApp
+    const waUrl = `https://wa.me/55${phone}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank');
+
+    // Fecha modal e limpa campos
+    closeCheckoutModal();
+
+    // Limpa carrinho
+    cartItems = [];
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    atualizarCarrinho();
+    atualizarContadorCarrinho();
+    voltarParaLoja();
+  }
+
+  // Eventos botões
+  if (checkoutCancelBtn) checkoutCancelBtn.addEventListener('click', closeCheckoutModal);
+  if (checkoutConfirmBtn) checkoutConfirmBtn.addEventListener('click', confirmCheckout);
+
+  const checkoutBtn = document.getElementById('checkoutButton');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', openCheckoutModal);
+  }
+
+  // Torna global para abrir modal checkout via HTML inline
+  window.openCheckoutModal = openCheckoutModal;
+  window.closeCheckoutModal = closeCheckoutModal;
+  window.confirmCheckout = confirmCheckout;
+});

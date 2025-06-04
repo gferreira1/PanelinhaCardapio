@@ -745,24 +745,29 @@
   display: none;
 }
 
+.containercar {
+    padding: 10px;
+    padding-top: 100px;
+}
+
 /* Botão do carrinho encaixado */
 .floating-cart {
-  position: fixed;
-  bottom: 27px;
-  right: 19px;
-  width: 60px;
-  height: 60px;
-  background-color: #F49801;
-  border-radius: 50%;
-  display: flex
-;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.6rem;
-  color: white;
-  z-index: 110;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  border: 4px solid white;
+position: fixed;
+    bottom: 20px;
+    right: 19px;
+    width: 60px;
+    height: 60px;
+    background-color: #F49801;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    color: white;
+    z-index: 110;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border: 4px solid white;
+
 }
 
 /* Badge de notificação */
@@ -1107,18 +1112,19 @@
 
   /* Estilo para o Rodapé - Visível somente em dispositivos móveis */
 .footer-mobile {
-    display: none; /* Inicialmente oculto */
+    display: none;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #F49801;
-    display: flex;
-    justify-content: space-around;
+    background-color: #F5B900;
+    justify-content: center;
+    gap: 40px;
     align-items: center;
-    padding: 10px 0;
+    padding: 12px 0;
     z-index: 100;
-  }
+}
+  
   
   .footer-icon {
     color: white;

@@ -161,7 +161,7 @@ if (orderNotes !== '') {
 }
 
 // ➕ Adiciona email para pagamento via Pix
-message += `\n📧 *Chave Pix (E-mail):* pix.paneladelicias@gmail.com`;
+message += `\n📧 *Chave Pix (E-mail):* panelinhadosaborscs@gmail.com`;
 
 const encodedMessage = encodeURIComponent(message);
 const vendedorPhone = '5551980533191';

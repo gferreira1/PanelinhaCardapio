@@ -22,11 +22,11 @@
 
     <!-- Categorias -->
     <div class="category-container">
-      <button class="category-dot" data-category="Todos"><img src="./assets/images/cat_all.png" class="iconecategory"></button>
-      <button class="category-dot" data-category="Bolo"><img src="./assets/images/cat_bolo.png" class="iconecategory"></button>
-      <button class="category-dot" data-category="Pizza"><img src="./assets/images/cat_pizza.png" class="iconecategory"></button>
-      <button class="category-dot" data-category="Lasanha"><img src="./assets/images/cat_lasanha.png" class="iconecategory"></button>
-      <button class="category-dot" data-category="Panqueca"><img src="./assets/images/cat_panqueca.png" class="iconecategory"></button>
+      <button class="category-dot" data-category="Todos"><img src="./assets/images/cat_all.png" class="iconecategory" alt="Todos"></button>
+      <button class="category-dot" data-category="Bolo"><img src="./assets/images/cat_bolo.png" class="iconecategory" alt="Bolo"></button>
+      <button class="category-dot" data-category="Pizza"><img src="./assets/images/cat_pizza.png" class="iconecategory" alt="Pizza"></button>
+      <button class="category-dot" data-category="Lasanha"><img src="./assets/images/cat_lasanha.png" class="iconecategory" alt="Lasanha"></button>
+      <button class="category-dot" data-category="Panqueca"><img src="./assets/images/cat_panqueca.png" class="iconecategory" alt="Panqueca"></button>
     </div>
 
     <!-- Produtos -->
@@ -51,7 +51,7 @@
     <!-- Modal de Entrega -->
     <div class="modal-overlay" id="modalEntrega">
       <div class="modal-content">
-        <button class="close-btn" onclick="fecharModalAviso()">×</button>
+        <button class="close-btn" onclick="fecharModalAviso()" aria-label="Fechar aviso de entrega">×</button>
         <h2>Aviso de Entrega</h2>
         <p>As entregas são feitas toda <strong>Terça-feira</strong> e <strong>Sexta-feira</strong>.</p>
       </div>
@@ -59,58 +59,70 @@
 
     <!-- Rodapé -->
     <div class="footer-mobile">
-      <a href="#" class="footer-icon"><i class="fas fa-home"></i></a>
+      <a href="#" class="footer-icon"><i class="fas fa-user"></i></a>
       <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
-      <a href="#" class="footer-icon" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></a>
     </div>
 
-    <!-- Carrinho Flutuante -->
-    <div class="floating-cart" id="cartIcon">
+    <!-- ✅ Carrinho Flutuante -->
+    <div class="floating-cart" id="cartIcon" onclick="irParaCarrinho()">
       <i class="fas fa-shopping-cart"></i>
       <span id="cartCount" class="cart-count">0</span>
     </div>
   </div>
 
-  <!-- Página Carrinho SPA -->
-  <section id="paginaCarrinho" style="display: none;">
-    <!-- Header com logo (casinha removida) -->
-    <div class="header-top">
-      <div><img src="./assets/images/panelalogo.png" alt="Logo" class="logo"></div>
-    </div>
+<!-- Página Carrinho -->
+<section id="paginaCarrinho" style="display: none;">
+  <!-- Header -->
+  <div class="header-top">
+    <div><img src="./assets/images/panelalogo.png" alt="Logo" class="logo"></div>
+  </div>
 
-    <!-- Modal de Finalização de Compra -->
-    <div id="checkoutModal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Finalizar Compra</h2>
-        <input type="text" id="userName" placeholder="Seu nome" required><br><br>
-        <input type="text" id="userPhone" placeholder="Seu telefone (WhatsApp)" required><br><br>
-        <textarea id="orderNotes" placeholder="Observações (ex: sem cobertura, entregar às 14h)" rows="3" style="width: 100%; margin-top: 10px;"></textarea>
-        <br><br>
-        <button onclick="confirmCheckout()">Confirmar</button>
-      </div>
-    </div>
+  <!-- Modal de Finalização de Compra -->
+  <!-- Modal Checkout -->
+<div id="checkoutModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
+  <div class="modal-content" style="background:#fff; padding:1rem; border-radius:8px; width:320px; max-width:90%;">
+    <h2>Finalizar Pedido</h2>
+    <label for="userName">Nome completo*</label>
+    <input type="text" id="userName" required />
 
-    <!-- Lista de Itens no Carrinho -->
-    <div class="container">
-      <div id="carrinhoLista"></div>
-      <button id="checkoutButton" class="checkoutButton" onclick="openModal()">Finalizar Compra</button>
-    </div>
+    <label for="userPhone">Telefone (somente números)*</label>
+    <input type="text" id="userPhone" maxlength="11" required />
 
-    <!-- Rodapé -->
-    <div class="footer-mobile">
-      <a href="#" class="footer-icon"><i class="fas fa-home"></i></a>
-      <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
-      <a href="#" class="footer-icon" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></a>
-    </div>
+    <label for="userObs">Observações</label>
+    <textarea id="userObs" rows="2"></textarea>
 
-    <!-- Carrinho Flutuante com botão de voltar (agora é uma casinha) -->
-    <div onclick="voltarParaLoja()" class="floating-cart" id="cartIcon">
-      <i class="fas fa-home"></i>
-      <span id="cartCount" class="cart-count">0</span>
+    <div class="modal-buttons" style="margin-top:1rem; text-align:right;">
+      <button id="checkoutCancelBtn" class="btn-cancel">Cancelar</button>
+      <button id="checkoutConfirmBtn" class="btn-confirm">Confirmar</button>
     </div>
-  </section>
+  </div>
+</div>
+
+
+  <!-- Lista de Itens no Carrinho -->
+  <div class="containercar">
+    <div id="carrinhoLista"></div>
+    <div class="total-carrinho">
+      Total: <span id="totalCarrinho">R$ 0,00</span>
+    </div>
+    <button id="checkoutButton" class="checkoutButton" onclick="openCheckoutModal()">Finalizar Compra</button>
+
+  </div>
+
+  <!-- Rodapé -->
+  <div class="footer-mobile">
+    <a href="#" class="footer-icon"><i class="fas fa-user"></i></a>
+    <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
+    
+  </div>
+
+  <!-- ✅ Botão Flutuante de Voltar -->
+  <div class="floating-cart" id="voltarIcon" onclick="voltarParaLoja()">
+    <i class="fas fa-home"></i>
+  </div>
+</section>
 
   <script src="teste.js"></script>
+  
 </body>
 </html>
