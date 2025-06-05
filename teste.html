@@ -59,7 +59,7 @@
 
     <!-- Rodapé -->
     <div class="footer-mobile">
-      <a href="#" class="footer-icon"><i class="fas fa-user"></i></a>
+      <a href="#" class="footer-icon" onclick="abrirPaginaUsuario()"><i class="fas fa-user"></i></a>
       <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
     </div>
 
@@ -79,24 +79,34 @@
 
   <!-- Modal de Finalização de Compra -->
   <!-- Modal Checkout -->
-<div id="checkoutModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
-  <div class="modal-content" style="background:#fff; padding:1rem; border-radius:8px; width:320px; max-width:90%;">
-    <h2>Finalizar Pedido</h2>
-    <label for="userName">Nome completo*</label>
-    <input type="text" id="userName" required />
+<!-- Modal -->
+<div id="checkoutModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999; font-family: 'Arial', sans-serif;">
+  <div style="background:#fff; padding:1.5rem; border-radius:12px; width:340px; max-width:90%; box-shadow: 0 4px 20px rgba(0,0,0,0.2); position:relative;">
+    
+    <h2 style="text-align:center; color:#333; font-size:1.4rem; margin-bottom:1rem;">
+      🛒 <strong>Finalizar Pedido</strong>
+    </h2>
 
-    <label for="userPhone">Telefone (somente números)*</label>
-    <input type="text" id="userPhone" maxlength="11" required />
+    <label for="userName" style="display:block; margin-top:10px; font-weight:bold; color:#555;">Nome completo*</label>
+    <input type="text" id="userName" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:4px;" />
 
-    <label for="userObs">Observações</label>
-    <textarea id="userObs" rows="2"></textarea>
+    <label for="userPhone" style="display:block; margin-top:12px; font-weight:bold; color:#555;">Telefone (somente números)*</label>
+    <input type="text" id="userPhone" maxlength="11" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:4px;" />
 
-    <div class="modal-buttons" style="margin-top:1rem; text-align:right;">
-      <button id="checkoutCancelBtn" class="btn-cancel">Cancelar</button>
-      <button id="checkoutConfirmBtn" class="btn-confirm">Confirmar</button>
+    <label for="userObs" style="display:block; margin-top:12px; font-weight:bold; color:#555;">Observações</label>
+    <textarea id="userObs" rows="2" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:4px; resize: none;"></textarea>
+
+    <div style="margin-top:1.5rem; display:flex; justify-content:space-between;">
+      <button id="checkoutCancelBtn" style="background:#f44336; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; flex:1; margin-right:10px;">
+        Cancelar
+      </button>
+      <button id="checkoutConfirmBtn" style="background:#4CAF50; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; flex:1;">
+        Confirmar
+      </button>
     </div>
   </div>
 </div>
+
 
 
   <!-- Lista de Itens no Carrinho -->
@@ -111,7 +121,7 @@
 
   <!-- Rodapé -->
   <div class="footer-mobile">
-    <a href="#" class="footer-icon"><i class="fas fa-user"></i></a>
+    <a href="#" class="footer-icon" onclick="abrirPaginaUsuario()"><i class="fas fa-user"></i></a>
     <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
     
   </div>
@@ -121,6 +131,29 @@
     <i class="fas fa-home"></i>
   </div>
 </section>
+
+<!-- Seção do Usuário / Histórico de Pedidos -->
+<section id="paginaUsuario" style="display: none; padding: 20px;">
+  <div class="header-top">
+    <div><img src="./assets/images/panelalogo.png" alt="Logo" class="logo"></div>
+  </div>
+
+  <h2 style="text-align:center;">🔍 Consultar Histórico de Pedidos</h2>
+  
+  <label for="telefoneConsulta" style="display:block; margin-top:10px; font-weight:bold;">Digite seu número de telefone:</label>
+  <input type="text" id="telefoneConsulta" placeholder="Ex: 11999999999" maxlength="11" style="width:100%; padding:8px; margin-top:5px; border-radius:6px; border:1px solid #ccc;">
+
+  <button onclick="buscarHistorico()" style="margin-top:10px; padding:10px; background:#4CAF50; color:white; border:none; border-radius:6px; cursor:pointer; width:100%;">
+    Ver Histórico
+  </button>
+
+  <div id="resultadoHistorico" style="margin-top:20px;"></div>
+
+  <div class="floating-cart" onclick="voltarParaLoja()">
+    <i class="fas fa-home"></i>
+  </div>
+</section>
+
 
   <script src="teste.js"></script>
   

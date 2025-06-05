@@ -317,21 +317,24 @@
         color: white;
       }
       
-      /* Contagem do carrinho */
-   .cart-count {
+
+/* Contador de itens no carrinho */
+.cart-count {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 2px;
+  right: 2px;
   background-color: red;
   color: white;
-  font-size: 0.65rem;
-  padding: 2px 5px;
+  font-size: 12px;
+  padding: 2px 6px;
   border-radius: 50%;
-  visibility: hidden; /* Oculta até o valor correto carregar */
+  font-weight: bold;
+  visibility: hidden; /* esconde por padrão */
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+/* Quando houver itens, aparece */
 .cart-count.visible {
   visibility: visible;
   opacity: 1;

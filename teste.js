@@ -1,5 +1,3 @@
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const lojaSection = document.getElementById("paginaLoja");
   const carrinhoSection = document.getElementById("paginaCarrinho");
@@ -18,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Tornar funções acessíveis globalmente para uso inline no HTML
   window.irParaCarrinho = irParaCarrinho;
   window.voltarParaLoja = voltarParaLoja;
   window.abrirModal = abrirModal;
@@ -36,7 +33,6 @@ let itemCount = 1;
 let currentCategory = 'Todos';
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-// Lista de produtos
 const produtos = [
   { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limão', price: 'R$ 12,00', image: './assets/images/bololimão.jpg' },
   { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
@@ -59,7 +55,6 @@ const produtos = [
   { id: '19', category: 'Panqueca', name: 'Panqueca de Carne', price: 'R$ 14,00', image: './assets/images/panqueca.webp' }
 ];
 
-// Renderiza produtos filtrados por categoria
 function renderGrid(category) {
   const grid = document.getElementById('productGrid');
   const filteredProducts = category === 'Todos' ? produtos : produtos.filter(p => p.category === category);
@@ -77,7 +72,6 @@ function renderGrid(category) {
   });
 }
 
-// Modal de compra
 function abrirModal(nome, preco, imagem) {
   itemCount = 1;
   document.getElementById('modal-product-name').innerText = nome;
@@ -114,14 +108,18 @@ function addToCart() {
   fecharModal();
 }
 
-// Atualiza o contador de itens no ícone do carrinho
 function atualizarContadorCarrinho() {
   const contador = document.getElementById('cartCount');
   const totalItens = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   contador.innerText = totalItens;
+
+  if (totalItens > 0) {
+    contador.classList.add('visible');
+  } else {
+    contador.classList.remove('visible');
+  }
 }
 
-// Filtro por categorias (pontos/circulos)
 document.querySelectorAll('.category-dot').forEach(btn => {
   btn.addEventListener('click', () => {
     currentCategory = btn.getAttribute('data-category');
@@ -131,7 +129,6 @@ document.querySelectorAll('.category-dot').forEach(btn => {
   });
 });
 
-// Modal de aviso de entrega (uma vez por 24h)
 window.onload = function () {
   const avisoKey = 'avisoEntregaExibido';
   const agora = Date.now();
@@ -146,7 +143,6 @@ function fecharModalAviso() {
   document.getElementById("modalEntrega").style.display = "none";
 }
 
-// Renderiza itens do carrinho na página carrinho
 function atualizarCarrinho() {
   const lista = document.getElementById('carrinhoLista');
   lista.innerHTML = '';
@@ -193,7 +189,6 @@ function removerItem(index) {
   atualizarCarrinho();
 }
 
-// Navegação entre telas loja e carrinho
 function voltarParaLoja() {
   document.getElementById("paginaCarrinho").style.display = "none";
   document.getElementById("paginaLoja").style.display = "block";
@@ -205,7 +200,6 @@ function irParaCarrinho() {
   atualizarCarrinho();
 }
 
-// Funções do modal checkout WhatsApp
 document.addEventListener('DOMContentLoaded', () => {
   const checkoutModal = document.getElementById('checkoutModal');
   const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
@@ -253,23 +247,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Monta mensagem para WhatsApp
     let message = `*Novo pedido de ${name}*\nTelefone: ${phone}\n\nItens:\n`;
     cartItems.forEach(item => {
-      // preço como número para exibir no pedido
       const precoNum = parseFloat(item.price.replace('R$', '').replace(',', '.'));
       message += `- ${item.name} x${item.quantity} = R$${(precoNum * item.quantity).toFixed(2)}\n`;
     });
     message += `\nObservações: ${obs || 'Nenhuma'}\n`;
 
-    // Link para WhatsApp
     const waUrl = `https://wa.me/55${phone}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
 
-    // Fecha modal e limpa campos
     closeCheckoutModal();
 
-    // Limpa carrinho
     cartItems = [];
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
     atualizarCarrinho();
@@ -277,7 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
     voltarParaLoja();
   }
 
-  // Eventos botões
   if (checkoutCancelBtn) checkoutCancelBtn.addEventListener('click', closeCheckoutModal);
   if (checkoutConfirmBtn) checkoutConfirmBtn.addEventListener('click', confirmCheckout);
 
@@ -286,8 +274,56 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutBtn.addEventListener('click', openCheckoutModal);
   }
 
-  // Torna global para abrir modal checkout via HTML inline
   window.openCheckoutModal = openCheckoutModal;
   window.closeCheckoutModal = closeCheckoutModal;
   window.confirmCheckout = confirmCheckout;
 });
+
+
+const historicoPedidos = [
+  {
+    id: '1',
+    telefone: '11999999999',
+    nome: 'João Silva',
+    pedidos: [
+      { nome: 'Bolo de Pote de Limão', preco: 'R$ 12,00' },
+      { nome: 'Coxinha de Frango', preco: 'R$ 5,00' }
+    ]
+  },
+  {
+    id: '2',
+    telefone: '11988888888',
+    nome: 'Maria Souza',
+    pedidos: [
+      { nome: 'Pizza Broto Calabresa', preco: 'R$ 22,00' }
+    ]
+  }
+];
+
+function buscarHistorico() {
+  const telefone = document.getElementById('telefoneConsulta').value.trim();
+  const resultadoDiv = document.getElementById('resultadoHistorico');
+
+  const cliente = historicoPedidos.find(p => p.telefone === telefone);
+
+  if (!cliente) {
+    resultadoDiv.innerHTML = `<p style="color:red;">Nenhum pedido encontrado para o telefone informado.</p>`;
+    return;
+  }
+
+  let html = `<h3>Histórico de ${cliente.nome}</h3><ul>`;
+  cliente.pedidos.forEach(pedido => {
+    html += `<li>🧁 ${pedido.nome} - <strong>${pedido.preco}</strong></li>`;
+  });
+  html += `</ul>`;
+
+  resultadoDiv.innerHTML = html;
+}
+
+function abrirPaginaUsuario() {
+  document.getElementById('paginaLoja').style.display = 'none';
+  document.getElementById('paginaCarrinho').style.display = 'none';
+  document.getElementById('paginaUsuario').style.display = 'block';
+}
+
+
