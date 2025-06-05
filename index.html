@@ -134,10 +134,10 @@
 
 <!-- Seção do Usuário / Histórico de Pedidos -->
 <section id="paginaUsuario" style="display: none; padding: 20px;">
+  <!-- Header -->
   <div class="header-top">
     <div><img src="./assets/images/panelalogo.png" alt="Logo" class="logo"></div>
   </div>
-
   <h2 style="text-align:center;">🔍 Consultar Histórico de Pedidos</h2>
   
   <label for="telefoneConsulta" style="display:block; margin-top:10px; font-weight:bold;">Digite seu número de telefone:</label>
@@ -149,7 +149,14 @@
 
   <div id="resultadoHistorico" style="margin-top:20px;"></div>
 
-  <div class="floating-cart" onclick="voltarParaLoja()">
+  <div class="footer-mobile">
+    <a href="#" class="footer-icon" onclick="abrirPaginaUsuario()"><i class="fas fa-user"></i></a>
+    <a href="#" class="footer-icon"><i class="fas fa-cog"></i></a>
+    
+  </div>
+
+  <!-- ✅ Botão Flutuante de Voltar -->
+  <div class="floating-cart" id="voltarIcon" onclick="voltarParaLoja()">
     <i class="fas fa-home"></i>
   </div>
 </section>
