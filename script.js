@@ -27,7 +27,7 @@ const produtos = [
   { id: '21', category: 'Panqueca', name: 'Panqueca de Carne 700g', price: 'R$ 16,00', image: './assets/images/panqueca.webp' },
   { id: '22', category: 'Panqueca', name: 'Panqueca de Frango 700g', price: 'R$ 16,00', image: './assets/images/panqueca.webp' }, 
   { id: '23', category: 'Pizza', name: 'Pizza broto Carne de Panela', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
-  { id: '24', category: 'Pizza', name: 'Carne de panela', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
+  { id: '24', category: 'Pizza', name: 'Mini Pizza de Brócolis ', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
   
 ];
 
