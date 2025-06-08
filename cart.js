@@ -1,6 +1,7 @@
 import firebaseConfig from './firebase/firebaseConfig.js';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 
 // Inicializa Firebase e Firestore
 const app = initializeApp(firebaseConfig);
