@@ -1327,6 +1327,14 @@ button#confirmPurchaseButton:hover {
   align-items: center;
 }
 
+.containerhistorico {
+    margin-top: 96px;
+    text-align: center;
+}
+input#telefoneConsulta {
+    margin-top: 10px !important;
+}
+
 
 
 

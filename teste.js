@@ -1,21 +1,51 @@
 document.addEventListener("DOMContentLoaded", () => {
   const lojaSection = document.getElementById("paginaLoja");
   const carrinhoSection = document.getElementById("paginaCarrinho");
+  const checkoutModal = document.getElementById('checkoutModal');
+  const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
+  const checkoutConfirmBtn = document.getElementById('checkoutConfirmBtn');
+  const checkoutBtn = document.getElementById('checkoutButton');
 
-  document.getElementById("cartIcon").addEventListener("click", () => {
+  // Navegação entre páginas
+  document.getElementById("cartIcon")?.addEventListener("click", () => {
     lojaSection.style.display = "none";
     carrinhoSection.style.display = "block";
     atualizarCarrinho();
   });
 
-  const voltarBtns = document.querySelectorAll(".btn-voltar-home");
-  voltarBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      carrinhoSection.style.display = "none";
-      lojaSection.style.display = "block";
+  document.querySelectorAll(".btn-voltar-home").forEach(btn => {
+    btn.addEventListener("click", voltarParaLoja);
+  });
+
+  // Categoria inicial
+  atualizarContadorCarrinho();
+  renderGrid(currentCategory);
+
+  // Modal de entrega exibido 1x por dia
+  const avisoKey = 'avisoEntregaExibido';
+  const agora = Date.now();
+  const avisoSalvo = Number(localStorage.getItem(avisoKey));
+  if (!avisoSalvo || (agora - avisoSalvo) > 86400000) {
+    document.getElementById("modalEntrega").style.display = "flex";
+    localStorage.setItem(avisoKey, agora.toString());
+  }
+
+  // Categoria por bolinhas
+  document.querySelectorAll('.category-dot').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentCategory = btn.getAttribute('data-category');
+      renderGrid(currentCategory);
+      document.querySelectorAll('.category-dot').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     });
   });
 
+  // Modal de checkout
+  if (checkoutCancelBtn) checkoutCancelBtn.addEventListener('click', closeCheckoutModal);
+  if (checkoutConfirmBtn) checkoutConfirmBtn.addEventListener('click', confirmCheckout);
+  if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckoutModal);
+
+  // Expor funções globais (SPA)
   window.irParaCarrinho = irParaCarrinho;
   window.voltarParaLoja = voltarParaLoja;
   window.abrirModal = abrirModal;
@@ -24,10 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addToCart = addToCart;
   window.removerItem = removerItem;
   window.fecharModalAviso = fecharModalAviso;
-
-  atualizarContadorCarrinho();
-  renderGrid(currentCategory);
+  window.openCheckoutModal = openCheckoutModal;
+  window.closeCheckoutModal = closeCheckoutModal;
+  window.confirmCheckout = confirmCheckout;
 });
+
 
 let itemCount = 1;
 let currentCategory = 'Todos';
@@ -190,6 +221,7 @@ function removerItem(index) {
 }
 
 function voltarParaLoja() {
+  document.getElementById("paginaUsuario").style.display = "none";
   document.getElementById("paginaCarrinho").style.display = "none";
   document.getElementById("paginaLoja").style.display = "block";
 }
@@ -286,19 +318,45 @@ const historicoPedidos = [
     telefone: '11999999999',
     nome: 'João Silva',
     pedidos: [
-      { nome: 'Bolo de Pote de Limão', preco: 'R$ 12,00' },
-      { nome: 'Coxinha de Frango', preco: 'R$ 5,00' }
+      {
+        data: '2025-05-12',
+        itens: [
+          { nome: 'Bolo de Pote de Limão', preco: 'R$ 12,00' },
+          { nome: 'Coxinha de Frango', preco: 'R$ 5,00' }
+        ]
+      },
+      {
+        data: '2025-06-03',
+        itens: [
+          { nome: 'Pizza Broto Frango', preco: 'R$ 14,50' },
+          { nome: 'Panqueca de Carne', preco: 'R$ 14,00' }
+        ]
+      },
+      {
+        data: '2025-06-05',
+        itens: [
+          { nome: 'Bolo de Pote de Maracujá', preco: 'R$ 12,00' },
+          { nome: 'Mini Pizza Frango', preco: 'R$ 0,90' }
+        ]
+      }
     ]
   },
   {
     id: '2',
-    telefone: '11988888888',
+    telefone: '11888888888',
     nome: 'Maria Souza',
     pedidos: [
-      { nome: 'Pizza Broto Calabresa', preco: 'R$ 22,00' }
+      {
+        data: '2025-05-10',
+        itens: [
+          { nome: 'Pastel de Queijo', preco: 'R$ 4,00' },
+          { nome: 'Suco de Laranja', preco: 'R$ 3,50' }
+        ]
+      }
     ]
   }
 ];
+
 
 function buscarHistorico() {
   const telefone = document.getElementById('telefoneConsulta').value.trim();
@@ -311,14 +369,24 @@ function buscarHistorico() {
     return;
   }
 
-  let html = `<h3>Histórico de ${cliente.nome}</h3><ul>`;
-  cliente.pedidos.forEach(pedido => {
-    html += `<li>🧁 ${pedido.nome} - <strong>${pedido.preco}</strong></li>`;
+  let html = `<h3>Histórico de ${cliente.nome}</h3>`;
+
+  const pedidosOrdenados = [...cliente.pedidos].sort((a, b) => new Date(b.data) - new Date(a.data));
+
+  pedidosOrdenados.forEach(pedido => {
+    let total = 0;
+    html += `<h4>🗓️ ${pedido.data}</h4><ul>`;
+    pedido.itens.forEach(item => {
+      const preco = parseFloat(item.preco.replace('R$', '').replace(',', '.').trim());
+      total += preco;
+      html += `<li>🧁 ${item.nome} - <strong>${item.preco}</strong></li>`;
+    });
+    html += `</ul><p><strong>Total:</strong> R$ ${total.toFixed(2).replace('.', ',')}</p>`;
   });
-  html += `</ul>`;
 
   resultadoDiv.innerHTML = html;
 }
+
 
 function abrirPaginaUsuario() {
   document.getElementById('paginaLoja').style.display = 'none';
