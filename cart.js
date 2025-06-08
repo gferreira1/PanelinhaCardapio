@@ -130,19 +130,19 @@ await setDoc(doc(db, 'pedidos', numeroPedido.toString()), newOrder);
 
 
   try {
-    // 🔥 Salva no Firebase
-    const docRef = await addDoc(collection(db, "pedidos"), newOrder);
-    console.log("Pedido salvo no Firebase com ID:", docRef.id);
+  await setDoc(doc(db, 'pedidos', numeroPedido.toString()), newOrder);
+  console.log("Pedido salvo com ID personalizado:", numeroPedido.toString());
 
-    // 💾 Salva também no localStorage
-    const existingOrders = JSON.parse(localStorage.getItem('pedidos')) || [];
-    existingOrders.push(newOrder);
-    localStorage.setItem('pedidos', JSON.stringify(existingOrders));
-  } catch (e) {
-    console.error("Erro ao salvar pedido no Firebase:", e);
-    alert("Erro ao registrar o pedido. Tente novamente.");
-    return;
-  }
+  // Salva também no localStorage
+  const existingOrders = JSON.parse(localStorage.getItem('pedidos')) || [];
+  existingOrders.push(newOrder);
+  localStorage.setItem('pedidos', JSON.stringify(existingOrders));
+} catch (e) {
+  console.error("Erro ao salvar pedido no Firebase:", e);
+  alert("Erro ao registrar o pedido. Tente novamente.");
+  return;
+}
+
 
   // 📲 Envia mensagem no WhatsApp
 // 📲 Envia mensagem no WhatsApp
