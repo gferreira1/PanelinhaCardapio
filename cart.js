@@ -102,8 +102,9 @@ async function confirmCheckout() {
 
   closeModal();
 
+const numeroPedido = Math.floor(1000 + Math.random() * 9000); // Ex: 7664
 const newOrder = {
-  id: '#' + Math.floor(1000 + Math.random() * 9000),
+  id: '#' + numeroPedido, // Para exibição
   cliente: userName,
   valor: 'R$ ' + cartItems.reduce((sum, item) => {
     return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
@@ -121,6 +122,10 @@ const newOrder = {
   data: new Date().toLocaleDateString('pt-BR'),
   status: 'recebido'
 };
+
+// Salvar com ID limpo (sem #) como identificador real no Firestore
+await setDoc(doc(db, 'pedidos', numeroPedido.toString()), newOrder);
+
 
 
   try {
