@@ -107,6 +107,7 @@ const numeroPedido = Math.floor(1000 + Math.random() * 9000); // Ex: 7664
 const newOrder = {
   id: '#' + numeroPedido, // Para exibição
   cliente: userName,
+  telefone: userPhone, // ✅ TELEFONE INCLUÍDO AQUI
   valor: 'R$ ' + cartItems.reduce((sum, item) => {
     return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
   }, 0).toFixed(2).replace('.', ','),
