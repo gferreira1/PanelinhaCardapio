@@ -28,7 +28,7 @@ const produtos = [
   { id: '22', category: 'Panqueca', name: 'Panqueca de Frango 700g', price: 'R$ 16,00', image: './assets/images/panqueca.webp' }, 
   { id: '23', category: 'Pizza', name: 'Pizza broto Carne de Panela', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
   { id: '24', category: 'Pizza', name: 'Mini Pizza de Brócolis ', price: 'R$ 0,90', image: './assets/images/Mini-pizza-de-brocolis.jpg' },
-  { id: '25', category: 'Todos', name: 'Pao ', price: 'R$ 12,00', image: './assets/images/pao.jpg' },
+  { id: '25', category: 'Todos', name: 'Pao ', price: 'R$ 12,00', image: './assets/images/pao.jpeg' },
   { id: '26', category: 'Todos', name: 'Cueca Virada 250g', price: 'R$ 7,00', image: './assets/images/cuecavirada.jpeg' },
   
 ];
