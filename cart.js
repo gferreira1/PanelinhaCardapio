@@ -1,6 +1,15 @@
 import firebaseConfig from './firebase/firebaseConfig.js';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  setDoc,
+  deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 
 
 // Inicializa Firebase e Firestore
@@ -130,9 +139,9 @@ await setDoc(doc(db, 'pedidos', numeroPedido.toString()), newOrder);
 
 
 
-  try {
-  await setDoc(doc(db, 'pedidos', numeroPedido.toString()), newOrder);
-  console.log("Pedido salvo com ID personalizado:", numeroPedido.toString());
+try {
+  await setDoc(doc(db, 'pedidos', numeroPedido), newOrder);
+  console.log("Pedido salvo com ID personalizado:", numeroPedido);
 
   // Salva também no localStorage
   const existingOrders = JSON.parse(localStorage.getItem('pedidos')) || [];
@@ -143,6 +152,7 @@ await setDoc(doc(db, 'pedidos', numeroPedido.toString()), newOrder);
   alert("Erro ao registrar o pedido. Tente novamente.");
   return;
 }
+
 
 
   // 📲 Envia mensagem no WhatsApp
@@ -220,3 +230,112 @@ window.removeFromCart = removeFromCart;
 
 
 
+
+async function converterPedidosParaNumericos() {
+  const colecaoRef = collection(db, 'pedidos');
+  const snapshot = await getDocs(colecaoRef);
+  let contador = 1001;
+
+  for (const docSnap of snapshot.docs) {
+    const docId = docSnap.id;
+
+    // Pula se o ID já for numérico (ex: '1001', '1002', ...)
+    if (!isNaN(parseInt(docId))) {
+      console.log(`ℹ️ Pedido ${docId} já está com ID numérico, pulando...`);
+      continue;
+    }
+
+    const docData = docSnap.data();
+    const novoId = contador.toString();
+    const novoDocRef = doc(db, 'pedidos', novoId);
+    const existe = await getDoc(novoDocRef);
+
+    if (!existe.exists()) {
+      // Atualiza o campo interno 'id' também (opcional)
+      docData.id = novoId;
+
+      await setDoc(novoDocRef, docData);
+      await deleteDoc(docSnap.ref);
+
+      console.log(`✅ Pedido ${docId} migrado para ${novoId}`);
+      contador++;
+    } else {
+      console.log(`⚠️ Pedido com ID ${novoId} já existe, pulando...`);
+    }
+  }
+
+  console.log('✅ Conversão dos pedidos finalizada!');
+}
+
+function parseDataHora(data, horario) {
+  const [dia, mes, ano] = data.split('/');
+  const [hora, minuto] = horario.split(':');
+  return new Date(`${ano}-${mes}-${dia}T${hora}:${minuto}:00`);
+}
+
+async function reordenarPedidosSequencialmente() {
+  const pedidosRef = collection(db, 'pedidos');
+  const snapshot = await getDocs(pedidosRef);
+
+  // Recolhe todos os pedidos com dados + ID
+  const pedidos = snapshot.docs.map(docSnap => {
+    const dados = docSnap.data();
+    return {
+      idOriginal: docSnap.id,
+      data: dados.data,
+      horario: dados.horario,
+      dados
+    };
+  });
+
+  // Ordena por data + hora (do mais antigo para o mais recente)
+  pedidos.sort((a, b) => {
+    const dataA = parseDataHora(a.data, a.horario);
+    const dataB = parseDataHora(b.data, b.horario);
+    return dataA - dataB;
+  });
+
+  // Inicia contador e começa a renomeação
+  let contador = 1;
+
+  for (const pedido of pedidos) {
+    const novoId = String(contador).padStart(4, '0'); // ex: 0001, 0002
+
+    // Pula se já estiver com ID correto
+    if (pedido.idOriginal === novoId) {
+      console.log(`ℹ️ Pedido ${novoId} já está correto, pulando.`);
+      contador++;
+      continue;
+    }
+
+    const novoDocRef = doc(db, 'pedidos', novoId);
+    const existe = await getDoc(novoDocRef);
+    if (existe.exists()) {
+      console.log(`⚠️ ID ${novoId} já existe, pulando.`);
+      contador++;
+      continue;
+    }
+
+    // Atualiza campo interno 'id'
+    pedido.dados.id = novoId;
+
+    // Copia para novo doc e deleta o antigo
+    await setDoc(novoDocRef, pedido.dados);
+    await deleteDoc(doc(db, 'pedidos', pedido.idOriginal));
+
+    console.log(`✅ Pedido ${pedido.idOriginal} migrado para ${novoId}`);
+    contador++;
+  }
+
+  console.log('✅ Reordenação finalizada com sucesso!');
+}
+
+// Expor globalmente
+window.reordenarPedidosSequencialmente = reordenarPedidosSequencialmente;
+console.log('🛠️ Função reordenarPedidosSequencialmente pronta! Execute: reordenarPedidosSequencialmente()');
+
+
+
+// Expor função no console
+window.converterPedidosParaNumericos = converterPedidosParaNumericos;
+console.log('🛠️ Função converterPedidosParaNumericos pronta! Execute no console: converterPedidosParaNumericos()');
