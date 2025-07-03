@@ -112,7 +112,7 @@ async function confirmCheckout() {
   const numeroPedido = await gerarProximoIdPedido();
 
   const newOrder = {
-    id: '#' + numeroPedido,
+    id:  numeroPedido,
     cliente: userName,
     telefone: userPhone,
     valor: 'R$ ' + cartItems.reduce((sum, item) => {
