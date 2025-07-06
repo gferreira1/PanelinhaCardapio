@@ -22,7 +22,7 @@ const produtos = [
   { id: '16', category: 'Lasanha', name: 'Lasanha Frango 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
   { id: '17', category: 'Pizza', name: 'Mini Pizza Frango', price: 'R$ 1,00', image: './assets/images/minipizzafrangoo.jpg' },
   { id: '18', category: 'Pizza', name: 'Mini Pizza Margherita', price: 'R$ 1,00', image: './assets/images/minipizza calabresa.webp' },
-  { id: '19', category: 'Pizza', name: 'Mini Pizza Milho e Bacon', price: 'R$ 1,00', image: './assets/images/minipizza calabresa.webp' },
+  { id: '19', category: 'Pizza', name: 'Mini Pizza Milho,Pimentão,cebola,alho e tomate', price: 'R$ 1,00', image: './assets/images/minipizza calabresa.webp' },
   { id: '20', category: 'Panqueca', name: 'Panqueca de Carne 500g', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
   { id: '21', category: 'Panqueca', name: 'Panqueca de Carne 700g', price: 'R$ 16,00', image: './assets/images/panqueca.webp' },
   { id: '22', category: 'Panqueca', name: 'Panqueca de Frango 700g', price: 'R$ 16,00', image: './assets/images/panqueca.webp' }, 
