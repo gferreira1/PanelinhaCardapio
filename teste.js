@@ -1,90 +1,45 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const lojaSection = document.getElementById("paginaLoja");
-  const carrinhoSection = document.getElementById("paginaCarrinho");
-  const checkoutModal = document.getElementById('checkoutModal');
-  const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
-  const checkoutConfirmBtn = document.getElementById('checkoutConfirmBtn');
-  const checkoutBtn = document.getElementById('checkoutButton');
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+import firebaseConfig from './firebase/firebaseConfig.js';
 
-  // Navegação entre páginas
-  document.getElementById("cartIcon")?.addEventListener("click", () => {
-    lojaSection.style.display = "none";
-    carrinhoSection.style.display = "block";
-    atualizarCarrinho();
-  });
-
-  document.querySelectorAll(".btn-voltar-home").forEach(btn => {
-    btn.addEventListener("click", voltarParaLoja);
-  });
-
-  // Categoria inicial
-  atualizarContadorCarrinho();
-  renderGrid(currentCategory);
-
-  // Modal de entrega exibido 1x por dia
-  const avisoKey = 'avisoEntregaExibido';
-  const agora = Date.now();
-  const avisoSalvo = Number(localStorage.getItem(avisoKey));
-  if (!avisoSalvo || (agora - avisoSalvo) > 86400000) {
-    document.getElementById("modalEntrega").style.display = "flex";
-    localStorage.setItem(avisoKey, agora.toString());
-  }
-
-  // Categoria por bolinhas
-  document.querySelectorAll('.category-dot').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentCategory = btn.getAttribute('data-category');
-      renderGrid(currentCategory);
-      document.querySelectorAll('.category-dot').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  // Modal de checkout
-  if (checkoutCancelBtn) checkoutCancelBtn.addEventListener('click', closeCheckoutModal);
-  if (checkoutConfirmBtn) checkoutConfirmBtn.addEventListener('click', confirmCheckout);
-  if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckoutModal);
-
-  // Expor funções globais (SPA)
-  window.irParaCarrinho = irParaCarrinho;
-  window.voltarParaLoja = voltarParaLoja;
-  window.abrirModal = abrirModal;
-  window.fecharModal = fecharModal;
-  window.alterarQuantidade = alterarQuantidade;
-  window.addToCart = addToCart;
-  window.removerItem = removerItem;
-  window.fecharModalAviso = fecharModalAviso;
-  window.openCheckoutModal = openCheckoutModal;
-  window.closeCheckoutModal = closeCheckoutModal;
-  window.confirmCheckout = confirmCheckout;
-});
-
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 let itemCount = 1;
 let currentCategory = 'Todos';
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+let produtos = [];
 
-const produtos = [
-  { id: '1', category: 'Bolo', name: 'Bolo de Pote de Limãoo', price: 'R$ 12,00', image: './assets/images/bololimão.jpg' },
-  { id: '2', category: 'Bolo', name: 'Bolo de Pote de Brigadeiro', price: 'R$ 12,00', image: './assets/images/bolobrigadeiro.webp' },
-  { id: '3', category: 'Pizza', name: 'Mini Pizza Calabresa', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
-  { id: '4', category: 'Pizza', name: 'Pizza Broto Milho e Bacon', price: 'R$ 14,50', image: './assets/images/brotomilhoo.png' },
-  { id: '5', category: 'Lasanha', name: 'Lasanha Bolonhesa 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '6', category: 'Panqueca', name: 'Panqueca de Frango', price: 'R$ 14,00', image: './assets/images/panqueca.webp' },
-  { id: '7', category: 'Bolo', name: 'Bolo de Pote de Maracujá', price: 'R$ 12,00', image: './assets/images/Bolomaracuja.webp' },
-  { id: '8', category: 'Bolo', name: 'Bolo de Pote de Paçoca', price: 'R$ 12,00', image: './assets/images/pacoca.jpeg' },
-  { id: '9', category: 'Bolo', name: 'Bolo de Pote de Morango', price: 'R$ 12,00', image: './assets/images/bolomorango.jpg' },
-  { id: '10', category: 'Bolo', name: 'Bolo de Pote de Prestígio', price: 'R$ 12,00', image: './assets/images/bolococo.jpg' },
-  { id: '11', category: 'Bolo', name: 'Bolo de Pote de Leite Ninho', price: 'R$ 12,00', image: './assets/images/Recheio-de-leite-ninho.jpg' },
-  { id: '12', category: 'Pizza', name: 'Pizza Broto Frango', price: 'R$ 14,50', image: './assets/images/minipizzafrango.jpg' },
-  { id: '13', category: 'Pizza', name: 'Pizza Broto Calabresa', price: 'R$ 14,50', image: './assets/images/pizzabrotocalabresa.jpg' },
-  { id: '14', category: 'Lasanha', name: 'Lasanha Bolonhesa 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '15', category: 'Lasanha', name: 'Lasanha Frango 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '16', category: 'Pizza', name: 'Mini Pizza Frango', price: 'R$ 0,90', image: './assets/images/minipizzafrangoo.jpg' },
-  { id: '17', category: 'Pizza', name: 'Mini Pizza Margherita', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
-  { id: '18', category: 'Pizza', name: 'Mini Pizza Milho e Bacon', price: 'R$ 0,90', image: './assets/images/minipizza calabresa.webp' },
-  { id: '19', category: 'Panqueca', name: 'Panqueca de Carne', price: 'R$ 14,00', image: './assets/images/panqueca.webp' }
-];
+async function carregarProdutos() {
+  try {
+    const produtosDocRef = doc(db, "cadastros", "produtos");
+    const produtoSubcolRef = collection(produtosDocRef, "produto");
+    const snapshot = await getDocs(produtoSubcolRef);
+    produtos = [];
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+
+      if (data.disponivel !== false) { // filtra só disponíveis
+        produtos.push({
+          id: doc.id,
+          name: data.name,
+          price: data.price,
+          image: data.image,
+          category: data.category
+        });
+      }
+    });
+
+    console.log("Produtos carregados:", produtos); // LOG AQUI
+    return produtos;
+
+  } catch (error) {
+    console.error("Erro ao carregar produtos:", error);
+    return [];
+  }
+}
+
 
 function renderGrid(category) {
   const grid = document.getElementById('productGrid');
@@ -127,17 +82,26 @@ function addToCart() {
   const preco = document.getElementById('modal-product-price').innerText;
   const imagem = document.getElementById('modal-product-image').src;
 
-  const existente = cartItems.find(item => item.name === nome);
+  // Pega o produto completo no array produtos para achar o id
+  const produto = produtos.find(p => p.name === nome);
+
+  if (!produto) {
+    alert("Produto não encontrado.");
+    return;
+  }
+
+  const existente = cartItems.find(item => item.id === produto.id);
   if (existente) {
     existente.quantity += itemCount;
   } else {
-    cartItems.push({ name: nome, price: preco, image: imagem, quantity: itemCount });
+    cartItems.push({ id: produto.id, name: nome, price: preco, image: imagem, quantity: itemCount });
   }
 
   localStorage.setItem('cartItems', JSON.stringify(cartItems));
   atualizarContadorCarrinho();
   fecharModal();
 }
+
 
 function atualizarContadorCarrinho() {
   const contador = document.getElementById('cartCount');
@@ -150,29 +114,8 @@ function atualizarContadorCarrinho() {
     contador.classList.remove('visible');
   }
 }
-
-document.querySelectorAll('.category-dot').forEach(btn => {
-  btn.addEventListener('click', () => {
-    currentCategory = btn.getAttribute('data-category');
-    renderGrid(currentCategory);
-    document.querySelectorAll('.category-dot').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
-
-window.onload = function () {
-  const avisoKey = 'avisoEntregaExibido';
-  const agora = Date.now();
-  const avisoSalvo = Number(localStorage.getItem(avisoKey));
-  if (!avisoSalvo || (agora - avisoSalvo) > 86400000) {
-    document.getElementById("modalEntrega").style.display = "flex";
-    localStorage.setItem(avisoKey, agora.toString());
-  }
-};
-
-function fecharModalAviso() {
-  document.getElementById("modalEntrega").style.display = "none";
-}
+// Expõe a função no escopo global para evitar erro
+window.atualizarContadorCarrinho = atualizarContadorCarrinho;
 
 function atualizarCarrinho() {
   const lista = document.getElementById('carrinhoLista');
@@ -221,97 +164,154 @@ function removerItem(index) {
 }
 
 function voltarParaLoja() {
-  document.getElementById("paginaUsuario").style.display = "none";
-  document.getElementById("paginaCarrinho").style.display = "none";
-  document.getElementById("paginaLoja").style.display = "block";
+  document.getElementById("paginaUsuario").style.display = 'none';
+  document.getElementById("paginaCarrinho").style.display = 'none';
+  document.getElementById("paginaLoja").style.display = 'block';
 }
 
 function irParaCarrinho() {
-  document.getElementById("paginaLoja").style.display = "none";
-  document.getElementById("paginaCarrinho").style.display = "block";
+  document.getElementById("paginaLoja").style.display = 'none';
+  document.getElementById("paginaCarrinho").style.display = 'block';
   atualizarCarrinho();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const checkoutModal = document.getElementById('checkoutModal');
-  const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
-  const checkoutConfirmBtn = document.getElementById('checkoutConfirmBtn');
+// Modal aviso entrega (1x ao dia)
+function fecharModalAviso() {
+  document.getElementById("modalEntrega").style.display = 'none';
+}
 
-  function openCheckoutModal() {
-    if(cartItems.length === 0) {
-      alert('Seu carrinho está vazio.');
-      return;
-    }
-    checkoutModal.style.display = 'flex';
+// Checkout
+function openCheckoutModal() {
+  if(cartItems.length === 0) {
+    alert('Seu carrinho está vazio.');
+    return;
+  }
+  document.getElementById('checkoutModal').style.display = 'flex';
+}
+
+function closeCheckoutModal() {
+  document.getElementById('checkoutModal').style.display = 'none';
+  document.getElementById('userName').value = '';
+  document.getElementById('userPhone').value = '';
+  document.getElementById('userObs').value = '';
+}
+
+function validateCheckout() {
+  const name = document.getElementById('userName').value.trim();
+  const phone = document.getElementById('userPhone').value.trim();
+  if (!name) {
+    alert('Por favor, insira seu nome.');
+    return false;
+  }
+  if (!phone || !/^\d{10,11}$/.test(phone)) {
+    alert('Por favor, insira um telefone válido com 10 ou 11 números.');
+    return false;
+  }
+  return true;
+}
+
+async function confirmCheckout() {
+  const userName = document.getElementById('userName').value.trim();
+  const userPhoneRaw = document.getElementById('userPhone').value.trim();
+  const orderNotes = document.getElementById('userObs').value.trim(); // Ajustado aqui
+
+  if (userName === '') {
+    alert('Por favor, preencha seu nome.');
+    return;
   }
 
-  function closeCheckoutModal() {
-    checkoutModal.style.display = 'none';
-    document.getElementById('userName').value = '';
-    document.getElementById('userPhone').value = '';
-    document.getElementById('userObs').value = '';
+  const userPhone = userPhoneRaw.replace(/\D/g, '');
+  if (userPhone.length < 10 || userPhone.length > 11) {
+    alert('Número de telefone inválido. Informe um número com DDD.');
+    return;
   }
 
-  function validateCheckout() {
-    const name = document.getElementById('userName').value.trim();
-    const phone = document.getElementById('userPhone').value.trim();
-    if (!name) {
-      alert('Por favor, insira seu nome.');
-      return false;
-    }
-    if (!phone || !/^\d{10,11}$/.test(phone)) {
-      alert('Por favor, insira um telefone válido com 10 ou 11 números.');
-      return false;
-    }
-    return true;
+  // Fecha modal de checkout
+  const modal = document.getElementById('checkoutModal');
+  if (modal) modal.style.display = 'none';
+
+  // Gera próximo ID numérico do pedido
+  const numeroPedido = await gerarProximoIdPedido();
+
+  // Calcula valor total formatado
+  const valorTotal = 'R$ ' + cartItems.reduce((sum, item) => {
+    return sum + parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
+  }, 0).toFixed(2).replace('.', ',');
+
+  // Monta objeto do pedido
+  const newOrder = {
+    id: numeroPedido,
+    cliente: userName,
+    telefone: userPhone,
+    valor: valorTotal,
+    observacoes: orderNotes,
+   itens: cartItems.map(item => ({
+  produto: item.id,
+  nome: item.name,
+  quantidade: item.quantity,
+  valorUnitario: item.price,
+  valorTotal: 'R$ ' + (parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity).toFixed(2).replace('.', ',')
+})),
+    horario: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    data: new Date().toLocaleDateString('pt-BR'),
+    status: 'recebido'
+  };
+
+  try {
+    await setDoc(doc(db, 'pedidos', numeroPedido), newOrder);
+    console.log("Pedido salvo com ID personalizado:", numeroPedido);
+
+    const existingOrders = JSON.parse(localStorage.getItem('pedidos')) || [];
+    existingOrders.push(newOrder);
+    localStorage.setItem('pedidos', JSON.stringify(existingOrders));
+  } catch (e) {
+    console.error("Erro ao salvar pedido no Firebase:", e);
+    alert("Erro ao registrar o pedido. Tente novamente.");
+    return;
   }
 
-  function confirmCheckout() {
-    if (!validateCheckout()) return;
+  // Emoji para categorias (ajuste caso suas categorias mudem)
+  const emojiMap = {
+    'Bolo': '🍰',
+    'Mini Pizza': '🍕',
+    'Pizza Broto': '🍕',
+    'Lasanha': '🍝',
+    'Panqueca': '🥞'
+  };
 
-    const name = document.getElementById('userName').value.trim();
-    const phone = document.getElementById('userPhone').value.trim();
-    const obs = document.getElementById('userObs').value.trim();
-
-    if (cartItems.length === 0) {
-      alert('Seu carrinho está vazio.');
-      closeCheckoutModal();
-      return;
-    }
-
-    let message = `*Novo pedido de ${name}*\nTelefone: ${phone}\n\nItens:\n`;
-    cartItems.forEach(item => {
-      const precoNum = parseFloat(item.price.replace('R$', '').replace(',', '.'));
-      message += `- ${item.name} x${item.quantity} = R$${(precoNum * item.quantity).toFixed(2)}\n`;
-    });
-    message += `\nObservações: ${obs || 'Nenhuma'}\n`;
-
-    const waUrl = `https://wa.me/55${phone}?text=${encodeURIComponent(message)}`;
-    window.open(waUrl, '_blank');
-
-    closeCheckoutModal();
-
-    cartItems = [];
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    atualizarCarrinho();
-    atualizarContadorCarrinho();
-    voltarParaLoja();
+  // Monta mensagem para WhatsApp
+  let message = `👤 *Nome:* ${userName}\n📱 *Tel:* (${userPhone.substring(0, 2)}) ${userPhone.substring(2)}\n📦 *Resumo do Pedido:*\n\n`;
+  cartItems.forEach(item => {
+    const emoji = emojiMap[item.category] || '🛒';
+    message += `${emoji} ${item.name} - ${item.quantity} x ${item.price}\n`;
+  });
+  message += `\n💰 *Total:* ${newOrder.valor}`;
+  if (orderNotes !== '') {
+    message += `\n📝 *Observações:* ${orderNotes}`;
   }
+  message += `\n📧 *Chave Pix (E-mail):* panelinhadosaborscs@gmail.com`;
 
-  if (checkoutCancelBtn) checkoutCancelBtn.addEventListener('click', closeCheckoutModal);
-  if (checkoutConfirmBtn) checkoutConfirmBtn.addEventListener('click', confirmCheckout);
+  const encodedMessage = encodeURIComponent(message);
+  const vendedorPhone = '5551980533191';
+  window.open(`https://wa.me/${vendedorPhone}?text=${encodedMessage}`, '_blank');
 
-  const checkoutBtn = document.getElementById('checkoutButton');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', openCheckoutModal);
-  }
+  // Limpa carrinho e atualiza interface
+  cartItems = [];
+  localStorage.removeItem('cartItems');
 
-  window.openCheckoutModal = openCheckoutModal;
-  window.closeCheckoutModal = closeCheckoutModal;
-  window.confirmCheckout = confirmCheckout;
-});
+  // Atualiza carrinho na tela (ajuste renderCart para atualizar #carrinhoLista e #totalCarrinho)
+  if (typeof renderCart === 'function') renderCart();
+
+  // Atualiza pedidos se função existir
+  if (typeof carregarPedidos === 'function') carregarPedidos();
+}
+
+window.confirmCheckout = confirmCheckout;
 
 
+
+
+// Histórico de pedidos (exemplo local, substitua pela sua fonte real)
 const historicoPedidos = [
   {
     id: '1',
@@ -324,39 +324,11 @@ const historicoPedidos = [
           { nome: 'Bolo de Pote de Limão', preco: 'R$ 12,00' },
           { nome: 'Coxinha de Frango', preco: 'R$ 5,00' }
         ]
-      },
-      {
-        data: '2025-06-03',
-        itens: [
-          { nome: 'Pizza Broto Frango', preco: 'R$ 14,50' },
-          { nome: 'Panqueca de Carne', preco: 'R$ 14,00' }
-        ]
-      },
-      {
-        data: '2025-06-05',
-        itens: [
-          { nome: 'Bolo de Pote de Maracujá', preco: 'R$ 12,00' },
-          { nome: 'Mini Pizza Frango', preco: 'R$ 0,90' }
-        ]
-      }
-    ]
-  },
-  {
-    id: '2',
-    telefone: '11888888888',
-    nome: 'Maria Souza',
-    pedidos: [
-      {
-        data: '2025-05-10',
-        itens: [
-          { nome: 'Pastel de Queijo', preco: 'R$ 4,00' },
-          { nome: 'Suco de Laranja', preco: 'R$ 3,50' }
-        ]
       }
     ]
   }
+  // ... outros clientes
 ];
-
 
 function buscarHistorico() {
   const telefone = document.getElementById('telefoneConsulta').value.trim();
@@ -371,7 +343,7 @@ function buscarHistorico() {
 
   let html = `<h3>Histórico de ${cliente.nome}</h3>`;
 
-  const pedidosOrdenados = [...cliente.pedidos].sort((a, b) => new Date(b.data) - new Date(a.data));
+  const pedidosOrdenados = [...cliente.pedidos].sort((a,b) => new Date(b.data) - new Date(a.data));
 
   pedidosOrdenados.forEach(pedido => {
     let total = 0;
@@ -387,11 +359,66 @@ function buscarHistorico() {
   resultadoDiv.innerHTML = html;
 }
 
+document.addEventListener("DOMContentLoaded", async () => {
+  await carregarProdutos();
+  renderGrid(currentCategory);
+  atualizarContadorCarrinho();
 
-function abrirPaginaUsuario() {
-  document.getElementById('paginaLoja').style.display = 'none';
-  document.getElementById('paginaCarrinho').style.display = 'none';
-  document.getElementById('paginaUsuario').style.display = 'block';
+  // Modal entrega (1x ao dia)
+  const avisoKey = 'avisoEntregaExibido';
+  const agora = Date.now();
+  const avisoSalvo = Number(localStorage.getItem(avisoKey));
+  if (!avisoSalvo || (agora - avisoSalvo) > 86400000) {
+    document.getElementById("modalEntrega").style.display = "flex";
+    localStorage.setItem(avisoKey, agora.toString());
+  }
+
+  // Eventos para categorias
+  document.querySelectorAll('.category-dot').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentCategory = btn.getAttribute('data-category');
+      renderGrid(currentCategory);
+      document.querySelectorAll('.category-dot').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  function abrirPaginaUsuario() {
+  document.getElementById("paginaLoja").style.display = 'none';
+  document.getElementById("paginaCarrinho").style.display = 'none';
+  document.getElementById("paginaUsuario").style.display = 'block';
 }
 
+const gerarProximoIdPedido = async () => {
+  const snapshot = await getDocs(collection(db, "pedidos"));
+  let maior = 0;
+  snapshot.forEach(docSnap => {
+    const id = docSnap.id;
+    const num = parseInt(id, 10);
+    if (!isNaN(num) && num > maior) {
+      maior = num;
+    }
+  });
+  return String(maior + 1).padStart(4, '0');
+};
 
+
+
+
+  // Expor funções globais para uso em HTML (onclick)
+  window.irParaCarrinho = irParaCarrinho;
+  window.voltarParaLoja = voltarParaLoja;
+  window.abrirModal = abrirModal;
+  window.fecharModal = fecharModal;
+  window.alterarQuantidade = alterarQuantidade;
+  window.addToCart = addToCart;
+  window.removerItem = removerItem;
+  window.fecharModalAviso = fecharModalAviso;
+  window.openCheckoutModal = openCheckoutModal;
+  window.closeCheckoutModal = closeCheckoutModal;
+  window.confirmCheckout = confirmCheckout;
+  window.buscarHistorico = buscarHistorico;
+    window.abrirPaginaUsuario = abrirPaginaUsuario;
+    window.gerarProximoIdPedido = gerarProximoIdPedido;
+
+});

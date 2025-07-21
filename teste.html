@@ -31,21 +31,27 @@
     <!-- Produtos -->
     <div class="product-grid" id="productGrid"></div>
 
-    <!-- Modal de Compra -->
-    <div id="modal" class="modal">
-      <div class="modal-conteudo">
-        <span class="fechar" onclick="fecharModal()">&times;</span>
-        <img id="modal-product-image" class="product-image">
-        <h2 id="modal-product-name" class="product-name"></h2>
-        <span id="modal-product-price" class="product-price"></span>
-        <div class="quantity-controls">
-          <button onclick="alterarQuantidade(-1)">-</button>
-          <span id="modal-item-count">1</span>
-          <button onclick="alterarQuantidade(1)">+</button>
-        </div>
-        <button onclick="addToCart()">Adicionar ao Carrinho</button>
-      </div>
+<!-- Modal de Compra -->
+<div id="modal" class="modal">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal()">&times;</span>
+    <img id="modal-product-image" class="product-image">
+    <h2 id="modal-product-name" class="product-name"></h2>
+    <span id="modal-product-price" class="product-price"></span>
+
+    <!-- Aqui está o campo oculto que faltava -->
+    <input type="hidden" id="modal-product-id">
+
+    <div class="quantity-controls">
+      <button onclick="alterarQuantidade(-1)">-</button>
+      <span id="modal-item-count">1</span>
+      <button onclick="alterarQuantidade(1)">+</button>
     </div>
+    <button onclick="addToCart()">Adicionar ao Carrinho</button>
+  </div>
+</div>
+
+
 
     <!-- Modal de Entrega -->
     <div class="modal-overlay" id="modalEntrega">
@@ -89,7 +95,7 @@
         <textarea id="userObs" rows="2" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:4px; resize: none;"></textarea>
         <div style="margin-top:1.5rem; display:flex; justify-content:space-between;">
          
-          <button id="checkoutConfirmBtn" style="background:#4CAF50; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; flex:1;">Confirmar</button>
+          <button id="checkoutConfirmBtn" onclick="confirmCheckout()" style="background:#4CAF50; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; flex:1;">Confirmar</button>
         </div>
       </div>
     </div>
@@ -141,6 +147,7 @@
 
   </section>
 
-  <script src="teste.js"></script>
+  <script type="module" src="teste.js"></script>
+
 </body>
 </html>
