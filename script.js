@@ -32,6 +32,7 @@ const produtos = [
   { id: '26', category: 'Todos', name: 'Cueca Virada 250g', price: 'R$ 7,00', image: './assets/images/cuecavirada.jpeg' },
   { id: '27', category: 'Todos', name: 'Cuca Linguiça com Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
   { id: '28', category: 'Todos', name: 'Cuca Abacaxi com Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '29', category: 'Pizza', name: 'Mini Pizza Carne Desfiada', price: 'R$ 1,00', image: './assets/images/minipizza calabresa.webp' },
   
 ];
 
