@@ -39,8 +39,7 @@ const produtos = [
   { id: '33', category: 'Todos', name: 'Cuca de Abacaxi com Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
   { id: '34', category: 'Todos', name: 'Cuca de Açucar', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
   { id: '35', category: 'Todos', name: 'Cuca de Frambroesa', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
-  
-  
+    
 ];
 
 // Função para exibir os produtos na grade
