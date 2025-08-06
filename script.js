@@ -30,9 +30,16 @@ const produtos = [
   { id: '24', category: 'Pizza', name: 'Mini Pizza de Brócolis ', price: 'R$ 1,00', image: './assets/images/Mini-pizza-de-brocolis.jpg' },
   { id: '25', category: 'Todos', name: 'Pao ', price: 'R$ 12,00', image: './assets/images/pao.jpeg' },
   { id: '26', category: 'Todos', name: 'Cueca Virada 250g', price: 'R$ 7,00', image: './assets/images/cuecavirada.jpeg' },
-  { id: '27', category: 'Todos', name: 'Cuca Linguiça com Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
-  { id: '28', category: 'Todos', name: 'Cuca Abacaxi com Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '27', category: 'Todos', name: 'Cuca Linguiça', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '28', category: 'Todos', name: 'Cuca Abacaxi com Chocolate branco', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
   { id: '29', category: 'Pizza', name: 'Mini Pizza Carne Desfiada', price: 'R$ 1,00', image: './assets/images/minipizza calabresa.webp' },
+  { id: '30', category: 'Todos', name: 'Cuca de Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '31', category: 'Todos', name: 'Cuca de Coco', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '32', category: 'Todos', name: 'Cuca de Goiaba', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '33', category: 'Todos', name: 'Cuca de Abacaxi com Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '34', category: 'Todos', name: 'Cuca de Açucar', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  { id: '35', category: 'Todos', name: 'Cuca de Frambroesa', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
+  
   
 ];
 
