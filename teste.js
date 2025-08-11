@@ -137,25 +137,46 @@ function atualizarCarrinho() {
 
     const div = document.createElement('div');
     div.className = 'carrinho-item';
-
     div.innerHTML = `
       <div class="carrinho-item-info">
         <img src="${item.image}" alt="${item.name}">
         <div class="carrinho-item-texto">
           <strong>${item.name}</strong>
-          <span>Qtd: ${item.quantity} x ${item.price}</span>
+          <span class="unit-price">R$ ${precoUnitario.toFixed(2).replace('.', ',')}</span>
           <span>Total do item: R$ ${totalItem.toFixed(2).replace('.', ',')}</span>
         </div>
       </div>
-      <button class="carrinho-remover" onclick="removerItem(${index})">×</button>
+      <div class="carrinho-item-controles">
+        <button onclick="alterarQtdItem(${index}, -1)">
+          <i class="fas ${item.quantity === 1 ? 'fa-trash' : 'fa-minus'}"></i>
+        </button>
+        <span>${item.quantity}</span>
+        <button onclick="alterarQtdItem(${index}, 1)">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
     `;
-
     lista.appendChild(div);
   });
 
   document.getElementById('totalCarrinho').innerText = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
   atualizarContadorCarrinho();
 }
+
+function alterarQtdItem(index, delta) {
+  if (!cartItems[index]) return;
+
+  cartItems[index].quantity += delta;
+
+  if (cartItems[index].quantity <= 0) {
+    cartItems.splice(index, 1);
+  }
+
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  atualizarCarrinho();
+}
+
+
 
 function removerItem(index) {
   cartItems.splice(index, 1);
@@ -420,5 +441,6 @@ const gerarProximoIdPedido = async () => {
   window.buscarHistorico = buscarHistorico;
     window.abrirPaginaUsuario = abrirPaginaUsuario;
     window.gerarProximoIdPedido = gerarProximoIdPedido;
+    window.alterarQtdItem = alterarQtdItem;
 
 });

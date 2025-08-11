@@ -39,7 +39,8 @@ const produtos = [
   { id: '33', category: 'Todos', name: 'Cuca de Abacaxi com Chocolate', price: 'R$ 28,00', image: './assets/images/panelalogo.png' },
   { id: '34', category: 'Todos', name: 'Cuca de Açucar', price: 'R$ 25,00', image: './assets/images/panelalogo.png' },
   { id: '35', category: 'Todos', name: 'Cuca de Frambroesa', price: 'R$ 25,00', image: './assets/images/panelalogo.png' },
-    
+   { id:'36', category: 'Lasanha', name: 'Lasanha de Carne Desfiado 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
+  { id: '37', category: 'Lasanha', name: 'Lasanha de Carne Desfiado 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },  
 ];
 
 // Função para exibir os produtos na grade
