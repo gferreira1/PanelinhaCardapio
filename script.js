@@ -118,11 +118,12 @@ function addToCart() {
 document.querySelectorAll('.category-dot').forEach(button => {
   button.addEventListener('click', () => {
     currentCategory = button.getAttribute('data-category');
-    renderGrid(currentCategory);
     document.querySelectorAll('.category-dot').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
+    filterAndRender(); // chama a função unificada
   });
 });
+
 
 // Clique no carrinho
 document.getElementById('cartIcon').addEventListener('click', function () {
@@ -162,8 +163,51 @@ window.onload = function () {
     cartCountElement.classList.add('visible');
   }
 
-  renderGrid(currentCategory);
+  filterAndRender();
 };
+
+
+// --- PESQUISA DE PRODUTOS PELO NOME ---
+function filterAndRender() {
+  const termo = document.querySelector('.search-input').value.toLowerCase();
+  const filteredProducts = produtos.filter(product => {
+    const matchCategory = currentCategory === 'Todos' || product.category === currentCategory;
+    const matchSearch = product.name.toLowerCase().includes(termo);
+    return matchCategory && matchSearch;
+  });
+
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+
+  filteredProducts.forEach(product => {
+    const card = document.createElement('div');
+    card.classList.add('card', 'item'); // a classe 'item' é para pesquisa
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}" class="product-image">
+      <h2 class="product-name produto">${product.name}</h2> <!-- a classe 'produto' é para pesquisa -->
+      <span class="product-price">${product.price}</span>
+      <button class="btn-comprar" onclick="abrirModal('${product.name}', '${product.price}', '${product.image}')">Comprar</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Configura a pesquisa ao digitar ou clicar na lupa
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.querySelector('.search-input');
+  const searchButton = document.querySelector('.search-button');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', filterAndRender); // pesquisa enquanto digita
+  }
+
+  if (searchButton) {
+    searchButton.addEventListener('click', filterAndRender); // pesquisa ao clicar na lupa
+  }
+});
+
+
+
 
 
 
