@@ -68,6 +68,31 @@
       </div> 
     </div>
 
+
+<!-- Modal kit --->
+<!-- Modal kit -->
+<div id="modalKit" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModalKit()">&times;</span>
+    <h2 id="kit-name"></h2>
+    <div id="kit-options"></div>
+    <ul id="kit-description"></ul>
+
+    <!-- Contador de quantidade -->
+    <div class="quantity-controls">
+      <button class="btn-quantity" onclick="alterarQuantidadeKit(-1)">-</button>
+      <span id="kit-quantity">1</span>
+      <button class="btn-quantity" onclick="alterarQuantidadeKit(1)">+</button>
+    </div>
+
+    <span id="kit-price"></span>
+    <button onclick="addKitToCart()">Adicionar ao Carrinho</button>
+  </div>
+</div>
+
+
+
+
     <!-- Modal Entrega -->
 <!-- Modal Entrega 
 <div class="modal-overlay" id="modalEntrega">

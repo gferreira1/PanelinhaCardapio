@@ -595,19 +595,7 @@
 }
 
 
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .modal-conteudo {
   background-color: #fff;
@@ -915,7 +903,7 @@
 
 /* Estilo do conteúdo do modal */
 .modal-content {
-  background: #fff;
+  background: #d65a5a;
   padding: 30px 20px;
   border-radius: 16px;
   text-align: center;
@@ -975,5 +963,204 @@
     width: 40px;
     height: 40px;
 }
+
+
+
+/* Modal Overlay */
+.modal {
+  display: none; /* Escondido por padrão */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6); /* Fundo escuro transparente */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Conteúdo do modal */
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px 20px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  animation: modalFadeIn 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Animação de entrada */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Botão de fechar */
+.modal .close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal .close:hover {
+  color: #e74c3c;
+}
+
+/* Título do kit */
+#kit-name {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+/* Preço */
+#kit-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #F49801;
+  margin: 10px 0;
+  display: block;
+}
+
+/* Lista de descrição */
+#kit-description {
+  text-align: left;
+  margin: 10px 0;
+  padding-left: 20px;
+  list-style-type: disc;
+  color: #555;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* Opções de kit */
+#kit-options label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+}
+
+#kit-options select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+/* Botão adicionar ao carrinho */
+.modal-content button {
+  background-color: #F49801;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #d48400;
+}
+
+/* Scroll para mobile */
+@media (max-width: 500px) {
+  .modal-content {
+    padding: 20px 15px;
+  }
+
+  #kit-name {
+    font-size: 1.4rem;
+  }
+
+  #kit-price {
+    font-size: 1.1rem;
+  }
+
+  #kit-options select {
+    font-size: 0.9rem;
+  }
+}
+
+
+.quantity-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.quantity-controls .btn-quantity {
+  background-color: #F49801;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.quantity-controls .btn-quantity:hover {
+  background-color: #d48400;
+}
+
+#kit-quantity {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 15px;
+  min-width: 25px;
+  display: inline-block;
+  text-align: center;
+}
+
+
+.kit-quantity-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.kit-quantity-container button {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
+button.btn-selecionar {
+    background-color: #42cdac;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.3s 
+ease;
+}
+
 
 

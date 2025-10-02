@@ -41,10 +41,84 @@ const produtos = [
   { id: '35', category: 'Todos', name: 'Cuca de Açucar', price: 'R$ 25,00', image: './assets/images/panelalogo.png' },
   { id: '36', category: 'Todos', name: 'Cuca de Frambroesa', price: 'R$ 25,00', image: './assets/images/panelalogo.png' },
    { id:'37', category: 'Lasanha', name: 'Lasanha de Carne Desfiado 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
-  { id: '38', category: 'Lasanha', name: 'Lasanha de Carne Desfiado 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },  
+  { id: '38', category: 'Lasanha', name: 'Lasanha de Carne Desfiado 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
+  { 
+  id: '39',
+  category: 'Todos',
+  name: 'Kit Festa 1',
+  price: 'R$ 12,00',
+  image: './assets/images/panelalogo.png',
+  options: [
+    {
+      label: 'Cachorrinho ou Mini Hambúrguer:',
+      choices: ['Cachorro-quente', 'Mini Hambúrguer']
+    },
+    {
+      label: 'Mini pizza 2 sabores:',
+      choices: [
+        'Calabresa',
+        'Carne Desfiada',
+        'Frango',
+        'Margherita',
+        'Brócolis',
+        'Milho, Pimentão, Cebola, Alho e Tomate'
+      ],
+      multiple: 2
+    },
+    {
+      label: 'Quiche ou Esfirra:',
+      choices: ['Quiche', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
+    }
+  ],
+  description: [
+    '2 doces (Brigadeiro e Beijinho)',
+    '2 Pastéis mini'
+  ]
+},
+{ 
+  id: '40',
+  category: 'Todos',
+  name: 'Kit Festa 2',
+  price: 'R$ 6,00',
+  image: './assets/images/panelalogo.png',
+  options: [
+    {
+      label: 'Cachorrinho ou Mini Hambúrguer:',
+      choices: ['Cachorro-quente', 'Mini Hambúrguer']
+    },
+    {
+      label: 'Mini pizza 2 sabores:',
+      choices: ['Calabresa e Frango', 'Mussarela e Presunto', 'Quatro Queijos']
+    },
+   
+  ],
+  description: [
+    '2 doces (Brigadeiro e Beijinho)',
+  ]
+}
+  
 ];
 
 // Função para exibir os produtos na grade
+
+
+function alterarQuantidadeKit(amount) {
+  itemCountKit += amount;
+  if (itemCountKit < 1) itemCountKit = 1; // mínimo 1
+  const kitQtyEl = document.getElementById('kit-quantity');
+  if (kitQtyEl) kitQtyEl.innerText = itemCountKit;
+  atualizarPrecoKit();
+}
+
+function atualizarPrecoKit() {
+  if (!currentKit) return;
+  let precoNum = parseFloat(currentKit.price.replace('R$', '').replace(',', '.'));
+  let total = precoNum * itemCountKit;
+  const kitPriceEl = document.getElementById('kit-price');
+  if (kitPriceEl) kitPriceEl.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+}
+
+
 function renderGrid(category) {
   const grid = document.getElementById('productGrid');
   const filteredProducts = category === 'Todos'
@@ -57,16 +131,30 @@ function renderGrid(category) {
     const card = document.createElement('div');
     card.classList.add('card');
 
-    card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}" class="product-image">
-      <h2 class="product-name">${product.name}</h2>
-      <span class="product-price">${product.price}</span>
-      <button class="btn-comprar" onclick="abrirModal('${product.name}', '${product.price}', '${product.image}')">Comprar</button>
-    `;
+    if (product.options) {
+      // Produto é um kit → botão "Selecionar"
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+        <h2 class="product-name">${product.name}</h2>
+        <span class="product-price">${product.price}</span>
+        <button class="btn-selecionar" onclick="abrirModalKit('${product.id}')">Selecionar</button>
+      `;
+    } else {
+      // Produto normal → botão "Comprar"
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+        <h2 class="product-name">${product.name}</h2>
+        <span class="product-price">${product.price}</span>
+        <button class="btn-comprar" onclick="abrirModal('${product.name}', '${product.price}', '${product.image}')">Comprar</button>
+      `;
+    }
 
     grid.appendChild(card);
   });
 }
+
+
+
 
 // Função para abrir o modal de compra
 function abrirModal(productName, productPrice, productImage) {
@@ -181,16 +269,30 @@ function filterAndRender() {
 
   filteredProducts.forEach(product => {
     const card = document.createElement('div');
-    card.classList.add('card', 'item'); // a classe 'item' é para pesquisa
-    card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}" class="product-image">
-      <h2 class="product-name produto">${product.name}</h2> <!-- a classe 'produto' é para pesquisa -->
-      <span class="product-price">${product.price}</span>
-      <button class="btn-comprar" onclick="abrirModal('${product.name}', '${product.price}', '${product.image}')">Comprar</button>
-    `;
+    card.classList.add('card', 'item');
+
+    if (product.options) {
+      // Kit
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+        <h2 class="product-name produto">${product.name}</h2>
+        <span class="product-price">${product.price}</span>
+        <button class="btn-selecionar" onclick="abrirModalKit('${product.id}')">Selecionar</button>
+      `;
+    } else {
+      // Produto normal
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+        <h2 class="product-name produto">${product.name}</h2>
+        <span class="product-price">${product.price}</span>
+        <button class="btn-comprar" onclick="abrirModal('${product.name}', '${product.price}', '${product.image}')">Comprar</button>
+      `;
+    }
+
     grid.appendChild(card);
   });
 }
+
 
 // Configura a pesquisa ao digitar ou clicar na lupa
 document.addEventListener('DOMContentLoaded', () => {
@@ -219,6 +321,100 @@ function fecharModalAviso() {
     modal.style.display = "none";
   }
 }
+
+
+
+let currentKit = null; // guarda o kit selecionado
+let itemCountKit = 1;
+
+function abrirModalKit(id) {
+  const kit = produtos.find(p => p.id === id);
+  currentKit = kit;
+  itemCountKit = 1; // reseta contador
+  document.getElementById('kit-name').innerText = kit.name;
+  document.getElementById('kit-quantity').innerText = itemCountKit;
+  atualizarPrecoKit();
+
+  // Limpa opções e descrição
+  const optionsDiv = document.getElementById('kit-options');
+  optionsDiv.innerHTML = '';
+  const descUl = document.getElementById('kit-description');
+  descUl.innerHTML = '';
+
+  // Adiciona opções dinamicamente
+  if (kit.options) {
+    kit.options.forEach((opt, i) => {
+      const label = document.createElement('label');
+      label.innerText = opt.label;
+
+      const select = document.createElement('select');
+      select.id = `kit-option-${i}`;
+      opt.choices.forEach(choice => {
+        const optionEl = document.createElement('option');
+        optionEl.value = choice;
+        optionEl.innerText = choice;
+        select.appendChild(optionEl);
+      });
+
+      optionsDiv.appendChild(label);
+      optionsDiv.appendChild(select);
+      optionsDiv.appendChild(document.createElement('br'));
+    });
+  }
+
+  if (kit.description) {
+    kit.description.forEach(desc => {
+      const li = document.createElement('li');
+      li.innerText = desc;
+      descUl.appendChild(li);
+    });
+  }
+
+  document.getElementById('modalKit').style.display = 'flex';
+}
+
+
+function fecharModalKit() {
+  document.getElementById('modalKit').style.display = 'none';
+}
+
+
+function addKitToCart() {
+  if (!currentKit) return;
+
+  const selectedOptions = currentKit.options?.map((opt, i) => {
+    const select = document.getElementById(`kit-option-${i}`);
+    return { label: opt.label, choice: select.value };
+  });
+
+  const existingItem = cartItems.find(item => item.id === currentKit.id);
+  if (existingItem) {
+    existingItem.quantity += itemCountKit;
+  } else {
+    cartItems.push({
+      id: currentKit.id,
+      name: currentKit.name,
+      price: currentKit.price,
+      image: currentKit.image,
+      quantity: itemCountKit,
+      options: selectedOptions
+    });
+  }
+
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  cartCount += itemCountKit;
+  document.getElementById('cartCount').innerText = cartCount;
+
+  fecharModalKit();
+}
+
+
+
+
+
+
+
+
 
 
 
