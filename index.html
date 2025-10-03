@@ -80,13 +80,13 @@
 
     <!-- Contador de quantidade -->
     <div class="quantity-controls">
-      <button class="btn-quantity" onclick="alterarQuantidadeKit(-1)">-</button>
+      <button class="btn-quantidade btn-quantidade-menos"onclick="alterarQuantidadeKit(-1)">-</button>
       <span id="kit-quantity">1</span>
-      <button class="btn-quantity" onclick="alterarQuantidadeKit(1)">+</button>
+      <button class="btn-quantidade btn-quantidade-mais" onclick="alterarQuantidadeKit(1)">+</button>
     </div>
 
     <span id="kit-price"></span>
-    <button onclick="addKitToCart()">Adicionar ao Carrinho</button>
+    <button class="btn-add-cart"  onclick="addKitToCart()">Adicionar ao Carrinho</button>
   </div>
 </div>
 

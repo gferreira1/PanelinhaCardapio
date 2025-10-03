@@ -79,7 +79,7 @@ const produtos = [
   id: '40',
   category: 'Todos',
   name: 'Kit Festa 2',
-  price: 'R$ 6,00',
+  price: 'R$ 8,00',
   image: './assets/images/panelalogo.png',
   options: [
     {
@@ -94,6 +94,7 @@ const produtos = [
   ],
   description: [
     '2 doces (Brigadeiro e Beijinho)',
+    '1 Pastéis mini'
   ]
 }
   

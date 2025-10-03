@@ -1065,7 +1065,7 @@
   font-size: 0.95rem;
 }
 
-/* Botão adicionar ao carrinho */
+/* Botão adicionar ao carrinho 
 .modal-content button {
   background-color: #F49801;
   color: white;
@@ -1076,7 +1076,7 @@
   font-size: 1rem;
   margin-top: 15px;
   transition: background-color 0.3s ease;
-}
+}*/
 
 .modal-content button:hover {
   background-color: #d48400;
@@ -1124,16 +1124,16 @@
 .quantity-controls .btn-quantity:hover {
   background-color: #d48400;
 }
-
+ /*
 #kit-quantity {
   font-size: 1.2rem;
   font-weight: bold;
-  margin: 0 15px;
+ margin: 0 15px;
   min-width: 25px;
   display: inline-block;
   text-align: center;
 }
-
+*/
 
 .kit-quantity-container {
   display: flex;
