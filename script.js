@@ -59,7 +59,6 @@ const produtos = [
         'Calabresa',
         'Carne Desfiada',
         'Frango',
-        'Margherita',
         'Brócolis',
         'Milho, Pimentão, Cebola, Alho e Tomate'
       ],
@@ -67,7 +66,7 @@ const produtos = [
     },
     {
       label: 'Quiche ou Esfirra:',
-      choices: ['Quiche', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
+      choices: ['Empada Aberta frango','Empada Aberta Bacon','Empada Aberta Frango','Empada Aberta Calabresa', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
     }
   ],
   description: [
