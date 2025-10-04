@@ -66,7 +66,7 @@ const produtos = [
     },
     {
       label: 'Quiche ou Esfirra:',
-      choices: ['Empada Aberta frango','Empada Aberta Bacon','Empada Aberta Frango','Empada Aberta Calabresa', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
+      choices: ['Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
     }
   ],
   description: [
