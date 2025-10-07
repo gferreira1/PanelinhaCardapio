@@ -76,7 +76,7 @@ const produtos = [
       label: '2 mini Pastel:',
       choices: ['Carne', 'Frango', 'Pizza'],
 
-      label: 'Quiche ou Esfirra:',
+      label: 'Esfirra ou Empada Aberta:',
       choices: ['Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
 
     }
@@ -93,8 +93,8 @@ const produtos = [
   image: './assets/images/panelalogo.png',
   options: [
     {
-      label: 'Cachorrinho ou Mini Hambúrguer:',
-      choices: ['Cachorro-quente', 'Mini Hambúrguer']
+      label: 'mini cachorrinho ou Mini Hambúrguer:',
+      choices: ['mini cachorrinho', 'Mini Hambúrguer']
     },
     {
       label: 'Mini pizza 2 sabores:',
