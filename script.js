@@ -57,20 +57,28 @@ const produtos = [
       label: 'Mini pizza 2 sabores:',
       choices: [
         'Frango',
+<<<<<<< HEAD
         'Carne Desfiada',
         'Calabresa',
+=======
+>>>>>>> 9ef1a3a0f41a851f9ff2ad75fb0c1742dd12bdbb
         'Brócolis',
         'Milho, Pimentão, Cebola, Alho e Tomate'
       ],
       multiple: 2
     },
     {
+<<<<<<< HEAD
       label: 'Esfirra ou Empada Aberta:',
       choices: ['Esfirra de Carne', 'Esfirra de Frango', 'Esfirra de Calabresa','Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa']
     },
     {
       label: '2 mini Pastel:',
       choices: ['Carne', 'Frango', 'Pizza']
+=======
+      label: 'Quiche ou Esfirra:',
+      choices: ['Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
+>>>>>>> 9ef1a3a0f41a851f9ff2ad75fb0c1742dd12bdbb
     }
   ],
   description: [
