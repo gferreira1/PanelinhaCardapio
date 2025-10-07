@@ -114,7 +114,7 @@ const produtos = [
    
   ],
   description: [
-    '2 doces (Brigadeiro e Beijinho)',
+    '2 doces (Brigadeiro e Beijinhoo)',
   ]
 }
   
