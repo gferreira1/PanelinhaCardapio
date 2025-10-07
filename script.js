@@ -108,7 +108,7 @@ const produtos = [
       multiple: 2
     },
     {
-      label: '1 mini Pastel:',
+      label: '2 mini Pastel:',
       choices: ['Carne', 'Frango', 'Pizza']
     }
    
