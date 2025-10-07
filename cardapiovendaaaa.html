@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panelinha do Sabor</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header-top">
+       <!-- Cabeçalho principal (Logo e Horário) -->
+    <div>
+      <img src="./assets/images/panelalogo.png" alt="Logo" class="logo">
+    </div>
+      <div class="search-container">
+        <!-- Campo de pesquisa -->
+        <input type="text" class="search-input" placeholder="Pesquisar...">
+        <button class="search-button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      
+      <!-- Ícone do Carrinho 
+      <button class="cart-button" id="cartIcon">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cartCount1" class="cart-count">0</span> <!-- Contador de itens no carrinho 
+
+      </button>-->
+
+      
+    </div>
+ <!-- Cabeçalho principal (Logo e Horário) 
+    <div class="header">
+      <img src="./assets/images/panelalogo.png" alt="Logo" class="logo">
+     <h1 class="title">Panelinha do Sabor</h1>
+
+    </div>
+    
+  -->
+   
+
+  </div>
+
+
+    <!-- Categorias -->
+    <div class="category-container">
+      <button class="category-dot" data-category="Bolo">
+        <i class="fas fa-birthday-cake"></i>
+      </button>
+      <button class="category-dot" data-category="Mini Pizza">
+        <i class="fas fa-pizza-slice"></i>
+      </button>
+      <button class="category-dot" data-category="Pizza Broto">
+        <i class="fas fa-pizza-slice"></i>
+      </button>
+      <button class="category-dot" data-category="Lasanha">
+        <i class="fas fa-utensils"></i>
+      </button>
+      <button class="category-dot" data-category="Panqueca">
+        <i class="fas fa-utensils"></i>
+      </button>
+    </div>
+    
+    <div class="carousel-container">
+      <div class="carousel" id="carousel">
+        <!-- Os produtos serão gerados dinamicamente aqui -->
+      </div>
+      <button class="carousel-control prev" id="prevButton">&#10094;</button>
+      <button class="carousel-control next" id="nextButton">&#10095;</button>
+    </div>
+
+    <!-- Novo container em grade -->
+<div class="product-grid" id="productGrid">
+  <!-- Os produtos serão inseridos dinamicamente aqui -->
+</div>
+
+    
+<!-- Modal -->
+<div id="modal" class="modal">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal()">&times;</span>
+    <img id="modal-product-image" src="" alt="Produto" class="product-image">
+    <h2 id="modal-product-name" class="product-name"></h2>
+    <span id="modal-product-price" class="product-price"></span>
+    <div class="quantity-controls">
+      <button class="btn-quantidade btn-quantidade-menos" onclick="alterarQuantidade(-1)">-</button>
+      <span id="modal-item-count">1</span>
+      <button class="btn-quantidade btn-quantidade-mais" onclick="alterarQuantidade(1)">+</button>
+    </div>
+    <button class="btn-add-cart" onclick="addToCart()">Adicionar ao Carrinho</button>
+    <!--
+    <div class="modal-actions">
+      <button class="btn-continuar" onclick="fecharModal()">Continuar Comprando</button>
+      <button class="btn-finalizar">Finalizar Compra</button>
+    </div>-->
+  </div>
+</div>
+
+<!-- Rodapé para Mobile -->
+<div class="footer-mobile">
+  <a href="#" class="footer-icon">
+    <i class="fas fa-home"></i>
+  </a>
+  <!--<a href="#" class="footer-icon">
+    <i class="fas fa-cog"></i>
+  </a>
+  <a href="#" class="footer-icon" id="logoutBtn">
+    <i class="fas fa-sign-out-alt"></i>
+  </a>-->
+</div>
+
+<!-- Botão do carrinho flutuante -->
+<div class="floating-cart" id="cartIcon">
+  <i class="fas fa-shopping-cart"></i>
+  <span id="cartCount" class="cart-count">0</span> <!-- Contador de itens no carrinho -->
+</div>
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>
