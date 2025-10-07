@@ -6,7 +6,7 @@ body {
   }
   
   .header-top {
-    background-color: #F49801;
+    background-color: #F5B900;
     color: white;
     text-align: center;
     padding: 20px;
@@ -115,7 +115,7 @@ body {
   }
   
   #checkoutButton {
-    background-color: #F49801;
+    background-color: #F5B900;
     color: white;
     padding: 15px 30px;
     border: none;
@@ -176,7 +176,7 @@ body {
   }
   
   button#confirmPurchaseButton {
-    background-color: #F49801;
+    background-color: #F5B900;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -186,7 +186,7 @@ body {
   }
   
   button#confirmPurchaseButton:hover {
-    background-color: #F49801;
+    background-color: #F5B900;
   }
   
 
@@ -198,7 +198,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #F49801;
+    background-color: #F5B900;
     display: flex;
     justify-content: space-around;
     align-items: center;
