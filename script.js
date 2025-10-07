@@ -50,32 +50,24 @@ const produtos = [
   image: './assets/images/panelalogo.png',
   options: [
     {
-      label: 'Cachorrinho ou Mini Hambúrguer:',
-      choices: ['Cachorro-quente', 'Mini Hambúrguer']
+      label: 'Mini cachorro ou Mini Hambúrguer:',
+      choices: ['Mini cachorro', 'Mini Hambúrguer']
     },
     {
       label: 'Mini pizza 2 sabores:',
       choices: [
-<<<<<<< HEAD
         'Frango',
 <<<<<<< HEAD
         'Carne Desfiada',
         'Calabresa',
 =======
 >>>>>>> 9ef1a3a0f41a851f9ff2ad75fb0c1742dd12bdbb
-=======
-        'Calabresa',
-        'Carne Desfiada',
-        'Frango',
-        'Margherita',
->>>>>>> parent of c8caffb (nova versao)
         'Brócolis',
         'Milho, Pimentão, Cebola, Alho e Tomate'
       ],
       multiple: 2
     },
     {
-<<<<<<< HEAD
 <<<<<<< HEAD
       label: 'Esfirra ou Empada Aberta:',
       choices: ['Esfirra de Carne', 'Esfirra de Frango', 'Esfirra de Calabresa','Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa']
@@ -87,15 +79,10 @@ const produtos = [
       label: 'Quiche ou Esfirra:',
       choices: ['Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
 >>>>>>> 9ef1a3a0f41a851f9ff2ad75fb0c1742dd12bdbb
-=======
-      label: 'Quiche ou Esfirra:',
-      choices: ['Quiche', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
->>>>>>> parent of c8caffb (nova versao)
     }
   ],
   description: [
     '2 doces (Brigadeiro e Beijinho)',
-    '2 Pastéis mini'
   ]
 },
 { 
@@ -111,13 +98,23 @@ const produtos = [
     },
     {
       label: 'Mini pizza 2 sabores:',
-      choices: ['Calabresa e Frango', 'Mussarela e Presunto', 'Quatro Queijos']
+      choices: [
+        'Frango',
+        'Carne Desfiada',
+        'Calabresa',
+        'Brócolis',
+        'Milho, Pimentão, Cebola, Alho e Tomate'
+      ],
+      multiple: 2
     },
+    {
+      label: '2 mini Pastel:',
+      choices: ['Carne', 'Frango', 'Pizza']
+    }
    
   ],
   description: [
     '2 doces (Brigadeiro e Beijinho)',
-    '1 Pastéis mini'
   ]
 }
   
@@ -333,11 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-
-
-
-
   // Fecha modal de aviso
 function fecharModalAviso() {
   const modal = document.getElementById("modalEntrega");
@@ -346,8 +338,6 @@ function fecharModalAviso() {
   }
 }
 
-
-
 let currentKit = null; // guarda o kit selecionado
 let itemCountKit = 1;
 
@@ -355,9 +345,16 @@ function abrirModalKit(id) {
   const kit = produtos.find(p => p.id === id);
   currentKit = kit;
   itemCountKit = 1; // reseta contador
+
+  // Garante que o preço seja numérico e esteja no formato correto
+  if (!kit.price || kit.price === '') {
+    console.warn(`⚠️ O kit "${kit.name}" está sem preço definido.`);
+    kit.price = 'R$ 0,00';
+  }
+
   document.getElementById('kit-name').innerText = kit.name;
   document.getElementById('kit-quantity').innerText = itemCountKit;
-  atualizarPrecoKit();
+  atualizarPrecoKit(); // mostra o preço corretamente
 
   // Limpa opções e descrição
   const optionsDiv = document.getElementById('kit-options');
@@ -368,21 +365,64 @@ function abrirModalKit(id) {
   // Adiciona opções dinamicamente
   if (kit.options) {
     kit.options.forEach((opt, i) => {
-      const label = document.createElement('label');
+      const groupDiv = document.createElement('div');
+      groupDiv.classList.add('option-group');
+
+      const label = document.createElement('p');
       label.innerText = opt.label;
+      groupDiv.appendChild(label);
 
-      const select = document.createElement('select');
-      select.id = `kit-option-${i}`;
-      opt.choices.forEach(choice => {
-        const optionEl = document.createElement('option');
-        optionEl.value = choice;
-        optionEl.innerText = choice;
-        select.appendChild(optionEl);
-      });
+      // 🔹 Se for mini pizza (2 sabores)
+      // 🔹 Se for mini pizza (2 sabores)
+if (opt.multiple && opt.multiple > 1) {
+  const saborContainer = document.createElement('div');
+  saborContainer.style.display = 'flex';
+  saborContainer.style.justifyContent = 'space-between';
+  saborContainer.style.gap = '10px';
 
-      optionsDiv.appendChild(label);
-      optionsDiv.appendChild(select);
-      optionsDiv.appendChild(document.createElement('br'));
+  for (let j = 0; j < opt.multiple; j++) {
+    const select = document.createElement('select');
+    select.classList.add('kit-select');
+    select.required = true;
+    select.style.width = '100%';
+
+    // 🔸 Remove placeholder e define primeira opção como padrão
+    opt.choices.forEach((choice, index) => {
+      const optionEl = document.createElement('option');
+      optionEl.value = choice;
+      optionEl.innerText = choice;
+      if (index === 0) optionEl.selected = true; // ✅ já vem selecionado
+      select.appendChild(optionEl);
+    });
+
+    saborContainer.appendChild(select);
+  }
+
+  groupDiv.appendChild(saborContainer);
+}
+
+
+      
+      // 🔹 Outras opções (sem múltipla escolha)
+else {
+  const select = document.createElement('select');
+  select.id = `kit-option-${i}`;
+  select.classList.add('kit-select');
+
+  // Define a primeira opção como padrão (sem placeholder)
+  opt.choices.forEach((choice, index) => {
+    const optionEl = document.createElement('option');
+    optionEl.value = choice;
+    optionEl.innerText = choice;
+    if (index === 0) optionEl.selected = true; // ✅ primeira já selecionada
+    select.appendChild(optionEl);
+  });
+
+  groupDiv.appendChild(select);
+}
+
+
+      optionsDiv.appendChild(groupDiv);
     });
   }
 
@@ -397,55 +437,57 @@ function abrirModalKit(id) {
   document.getElementById('modalKit').style.display = 'flex';
 }
 
-
 function fecharModalKit() {
   document.getElementById('modalKit').style.display = 'none';
 }
 
+function parsePrice(priceStr) {
+  if (!priceStr) return 0;
+  return parseFloat(priceStr.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+}
+
+function atualizarPrecoKit() {
+  if (!currentKit) return;
+  const precoBase = parsePrice(currentKit.price);
+  const total = precoBase * itemCountKit;
+  const precoEl = document.getElementById('kit-price');
+  if (precoEl) precoEl.innerText = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+}
+
+function alterarQuantidadeKit(delta) {
+  itemCountKit += delta;
+  if (itemCountKit < 1) itemCountKit = 1;
+  document.getElementById('kit-quantity').innerText = itemCountKit;
+  atualizarPrecoKit();
+}
 
 function addKitToCart() {
   if (!currentKit) return;
 
   const selectedOptions = currentKit.options?.map((opt, i) => {
     const select = document.getElementById(`kit-option-${i}`);
-    return { label: opt.label, choice: select.value };
+    return { label: opt.label, choice: select ? select.value : null };
   });
 
   const existingItem = cartItems.find(item => item.id === currentKit.id);
+  const priceNumber = parsePrice(currentKit.price);
+
   if (existingItem) {
     existingItem.quantity += itemCountKit;
   } else {
     cartItems.push({
       id: currentKit.id,
       name: currentKit.name,
-      price: currentKit.price,
+      price: `R$ ${priceNumber.toFixed(2).replace('.', ',')}`,
       image: currentKit.image,
       quantity: itemCountKit,
-      options: selectedOptions
+      options: selectedOptions,
+      category: currentKit.category || 'Kit'
     });
   }
 
   localStorage.setItem('cartItems', JSON.stringify(cartItems));
   cartCount += itemCountKit;
   document.getElementById('cartCount').innerText = cartCount;
-
   fecharModalKit();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
