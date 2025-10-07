@@ -11,38 +11,10 @@ body {
     text-align: center;
     padding: 20px;
   }
-
-
-     .header-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0px 15px 0px 0px;
-        background-color: rgb(0, 48, 50); /* Cor ajustada */
-        color: white;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 100;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-
-        .logo {
-    height: 70px;
-    border-radius: 1px 27px 1px 19px;
-  }
   
-.container {
-    width: 88%;
-    min-width: 320px;
-    max-width: 600px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 10px;
-    background: rgb(255, 255, 255);
-    padding: 30px;
-    border-radius: 10px;
-    margin: 20px auto;
-    margin-top: 75px;
-}
+  .container {
+    padding: 20px;
+  }
   
   #cartContent {
     display: flex;
@@ -59,8 +31,8 @@ body {
   }
   
   .cart-item-image {
-    width: 75px;
-    height: 75px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     margin-right: 20px;
     margin-top: 25px;
@@ -69,25 +41,6 @@ body {
   .cart-item-info {
     flex: 1;
   }
-
-  h2.product-name.produto {
-    max-width: 95%;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-}
-  
-  h3.cart-item-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 8px;
-    display: block;
-    max-width: 91%;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-}
   
   .cart-item-name {
     font-size: 18px;
