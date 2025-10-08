@@ -42,12 +42,21 @@ const produtos = [
   { id: '36', category: 'Todos', name: 'Cuca de Frambroesa', price: 'R$ 25,00', image: './assets/images/panelalogo.png' },
    { id:'37', category: 'Lasanha', name: 'Lasanha de Carne Desfiado 500g', price: 'R$ 16,50', image: './assets/images/lasanhacarne.webp' },
   { id: '38', category: 'Lasanha', name: 'Lasanha de Carne Desfiado 750g', price: 'R$ 18,50', image: './assets/images/lasanhacarne.webp' },
-  { 
+{ 
   id: '39',
   category: 'Todos',
   name: 'Kit Festa 1',
   price: 'R$ 12,00',
   image: './assets/images/panelalogo.png',
+  quantidade: 14, // quantidade de kits
+  valorTotal: 'R$ 168,00',
+  itens: [
+    { nome: 'Mini Cachorro-Quente', quantidade: 14 },
+    { nome: 'Mini Pizza de Frango', quantidade: 14 },
+    { nome: 'Mini Pizza de Calabresa', quantidade: 14 },
+    { nome: 'Esfirra', quantidade: 14 },
+    { nome: 'Docinhos Sortidos', quantidade: 24 }
+  ],
   options: [
     {
       label: 'Mini cachorro ou Mini Hambúrguer:',
@@ -57,28 +66,27 @@ const produtos = [
       label: 'Mini pizza 2 sabores:',
       choices: [
         'Frango',
-
         'Carne Desfiada',
         'Calabresa',
-
-
         'Brócolis',
         'Milho, Pimentão, Cebola, Alho e Tomate'
       ],
       multiple: 2
     },
     {
-
       label: 'Esfirra ou Empada Aberta:',
-      choices: ['Esfirra de Carne', 'Esfirra de Frango', 'Esfirra de Calabresa','Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa']
+      choices: [
+        'Esfirra de Carne',
+        'Esfirra de Frango',
+        'Esfirra de Calabresa',
+        'Empada Aberta Frango',
+        'Empada Aberta Bacon',
+        'Empada Aberta Calabresa'
+      ]
     },
     {
       label: '2 mini Pastel:',
-      choices: ['Carne', 'Frango', 'Pizza'],
-
-      label: 'Esfirra ou Empada Aberta:',
-      choices: ['Empada Aberta Frango','Empada Aberta Bacon','Empada Aberta Calabresa', 'Esfirra de Frango', 'Esfirra de Carne', 'Esfirra de Calabresa']
-
+      choices: ['Carne', 'Frango', 'Pizza']
     }
   ],
   description: [
@@ -91,6 +99,14 @@ const produtos = [
   name: 'Kit Festa 2',
   price: 'R$ 8,00',
   image: './assets/images/panelalogo.png',
+  quantidade: 10,
+  valorTotal: 'R$ 80,00',
+  itens: [
+    { nome: 'Mini Cachorro-Quente', quantidade: 10 },
+    { nome: 'Mini Pizza de Frango', quantidade: 10 },
+    { nome: 'Esfirra', quantidade: 10 },
+    { nome: 'Docinhos Sortidos', quantidade: 20 }
+  ],
   options: [
     {
       label: 'mini cachorrinho ou Mini Hambúrguer:',
@@ -111,12 +127,12 @@ const produtos = [
       label: '2 mini Pastel:',
       choices: ['Carne', 'Frango', 'Pizza']
     }
-   
   ],
   description: [
     '2 doces (Brigadeiro e Beijinho)',
   ]
 }
+
   
 ];
 
@@ -491,3 +507,4 @@ function addKitToCart() {
   document.getElementById('cartCount').innerText = cartCount;
   fecharModalKit();
 }
+
