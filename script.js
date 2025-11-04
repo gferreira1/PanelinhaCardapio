@@ -196,6 +196,7 @@ function renderGrid(category) {
 
 
 // Função para abrir o modal de compra
+// Função para abrir o modal de compra
 function abrirModal(productName, productPrice, productImage) {
   const produtosMin20 = ["Mini Cachorro", "Mini hamburguer"];
 
@@ -206,16 +207,9 @@ function abrirModal(productName, productPrice, productImage) {
   document.getElementById('modal-product-image').src = productImage;
   document.getElementById('modal-item-count').innerText = itemCount;
 
-  // Mostra aviso se for produto com quantidade mínima
+  // Esconde o aviso ao abrir o modal
   const aviso = document.getElementById('modal-quantidade-aviso');
-  if (produtosMin20.includes(productName)) {
-    aviso.innerText = "Quantidade mínima: 20 unidades";
-    aviso.style.color = "red";
-    aviso.style.display = "block";
-  } else {
-    aviso.innerText = "";
-    aviso.style.display = "none";
-  }
+  aviso.style.display = "none";
 
   document.getElementById('modal').style.display = 'flex';
 }
@@ -229,21 +223,29 @@ function fecharModal() {
 function alterarQuantidade(amount) {
   const productName = document.getElementById('modal-product-name').innerText;
   const produtosMin20 = ["Mini Cachorro", "Mini hamburguer"];
+  const aviso = document.getElementById('modal-quantidade-aviso');
 
   itemCount += amount;
 
-  // Se for produto com mínimo 20 → não deixar baixar de 20
-  if (produtosMin20.includes(productName) && itemCount < 20) {
-    itemCount = 20;
-  }
-
-  // Se for outro produto → mínimo 1
-  if (!produtosMin20.includes(productName) && itemCount < 1) {
-    itemCount = 1;
+  if (produtosMin20.includes(productName)) {
+    // Se tentar ir abaixo de 20, trava e mostra o aviso
+    if (itemCount < 20) {
+      itemCount = 20;
+      aviso.innerText = "Quantidade mínima: 20 unidades";
+      aviso.style.color = "red";
+      aviso.style.display = "block";
+    } else {
+      aviso.style.display = "none";
+    }
+  } else {
+    // Produtos normais — mínimo 1
+    if (itemCount < 1) itemCount = 1;
+    aviso.style.display = "none";
   }
 
   document.getElementById('modal-item-count').innerText = itemCount;
 }
+
 
 
 
