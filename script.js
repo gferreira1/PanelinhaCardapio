@@ -217,10 +217,24 @@ function fecharModal() {
 
 // Altera a quantidade no modal
 function alterarQuantidade(amount) {
+  const productName = document.getElementById('modal-product-name').innerText;
+  const produtosMin20 = ["Mini Cachorro", "Mini hamburguer"];
+
   itemCount += amount;
-  if (itemCount < 1) itemCount = 1;
+
+  // Se for produto com mínimo 20 → não deixar baixar de 20
+  if (produtosMin20.includes(productName) && itemCount < 20) {
+    itemCount = 20;
+  }
+
+  // Se for outro produto → mínimo 1
+  if (!produtosMin20.includes(productName) && itemCount < 1) {
+    itemCount = 1;
+  }
+
   document.getElementById('modal-item-count').innerText = itemCount;
 }
+
 
 // Adiciona produto ao carrinho
 function addToCart() {
