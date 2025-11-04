@@ -192,10 +192,6 @@ function renderGrid(category) {
   });
 }
 
-
-
-
-// Função para abrir o modal de compra
 // Função para abrir o modal de compra
 function abrirModal(productName, productPrice, productImage) {
   const produtosMin20 = ["Mini Cachorro", "Mini hamburguer"];
