@@ -197,20 +197,30 @@ function renderGrid(category) {
 
 // Função para abrir o modal de compra
 function abrirModal(productName, productPrice, productImage) {
-  // Produtos que precisam começar com 20 unidades
   const produtosMin20 = ["Mini Cachorro", "Mini hamburguer"];
 
-  // Se o produto estiver na lista, começa com 20, senão começa com 1
   itemCount = produtosMin20.includes(productName) ? 20 : 1;
 
   document.getElementById('modal-product-name').innerText = productName;
   document.getElementById('modal-product-price').innerText = productPrice;
   document.getElementById('modal-product-image').src = productImage;
   document.getElementById('modal-item-count').innerText = itemCount;
+
+  // Mostra aviso se for produto com quantidade mínima
+  const aviso = document.getElementById('modal-quantidade-aviso');
+  if (produtosMin20.includes(productName)) {
+    aviso.innerText = "Quantidade mínima: 20 unidades";
+    aviso.style.color = "red";
+    aviso.style.display = "block";
+  } else {
+    aviso.innerText = "";
+    aviso.style.display = "none";
+  }
+
   document.getElementById('modal').style.display = 'flex';
 }
 
-// Fecha o modal de compra
+// Fecha o modal
 function fecharModal() {
   document.getElementById('modal').style.display = 'none';
 }
@@ -234,6 +244,7 @@ function alterarQuantidade(amount) {
 
   document.getElementById('modal-item-count').innerText = itemCount;
 }
+
 
 
 // Adiciona produto ao carrinho
