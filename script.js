@@ -133,7 +133,7 @@ const produtos = [
   ]
 },
 { id: '41', category: 'Todos', name: 'Mini Cachorro', price: 'R$ 2,50', image: './assets/images/minihamburguer.jpeg' },
-{ id: '41', category: 'Todos', name: 'Mini hamburguer', price: 'R$ 2,50', image: './assets/images/minicachorro.jpeg' }
+{ id: '42', category: 'Todos', name: 'Mini hamburguer', price: 'R$ 2,50', image: './assets/images/minicachorro.jpeg' }
 
   
 ];
@@ -197,7 +197,12 @@ function renderGrid(category) {
 
 // Função para abrir o modal de compra
 function abrirModal(productName, productPrice, productImage) {
-  itemCount = 1;
+  // Produtos que precisam começar com 20 unidades
+  const produtosMin20 = ["Mini Cachorro", "Mini hamburguer"];
+
+  // Se o produto estiver na lista, começa com 20, senão começa com 1
+  itemCount = produtosMin20.includes(productName) ? 20 : 1;
+
   document.getElementById('modal-product-name').innerText = productName;
   document.getElementById('modal-product-price').innerText = productPrice;
   document.getElementById('modal-product-image').src = productImage;
