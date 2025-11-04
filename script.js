@@ -200,7 +200,7 @@ function renderGrid(category) {
 function abrirModal(productName, productPrice, productImage) {
   const produtosMin20 = ["Mini Cachorro", "Mini hamburguer"];
 
-  itemCount = produtosMin20.includes(productName) ? 20 : 1;
+  itemCount = produtosMin20.includes(productName) ? 15 : 1;
 
   document.getElementById('modal-product-name').innerText = productName;
   document.getElementById('modal-product-price').innerText = productPrice;
@@ -229,9 +229,9 @@ function alterarQuantidade(amount) {
 
   if (produtosMin20.includes(productName)) {
     // Se tentar ir abaixo de 20, trava e mostra o aviso
-    if (itemCount < 20) {
-      itemCount = 20;
-      aviso.innerText = "Quantidade mínima: 20 unidades";
+    if (itemCount < 15) {
+      itemCount = 15;
+      aviso.innerText = "Quantidade mínima: 15 unidades";
       aviso.style.color = "red";
       aviso.style.display = "block";
     } else {
