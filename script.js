@@ -51,11 +51,11 @@ const produtos = [
   quantidade: 14, // quantidade de kits
   valorTotal: 'R$ 168,00',
   itens: [
-    { nome: 'Mini Cachorro-Quente', quantidade: 14 },
-    { nome: 'Mini Pizza de Frango', quantidade: 14 },
-    { nome: 'Mini Pizza de Calabresa', quantidade: 14 },
-    { nome: 'Esfirra', quantidade: 14 },
-    { nome: 'Docinhos Sortidos', quantidade: 24 }
+    { nome: 'Mini Cachorro-Quente', quantidade: 1 },
+    { nome: 'Mini Pizza de Frango', quantidade: 1 },
+    { nome: 'Mini Pizza de Calabresa', quantidade: 1 },
+    { nome: 'Esfirra', quantidade: 1 },
+    { nome: 'Docinhos Sortidos', quantidade: 2 }
   ],
   options: [
     {
@@ -131,7 +131,9 @@ const produtos = [
   description: [
     '2 doces (Brigadeiro e Beijinho)',
   ]
-}
+},
+{ id: '41', category: 'Todos', name: 'Mini Cachorro', price: 'R$ 2,50', image: './assets/images/minihamburguer.jpeg' },
+{ id: '41', category: 'Todos', name: 'Mini hamburguer', price: 'R$ 2,50', image: './assets/images/minicachorro.jpeg' }
 
   
 ];
@@ -485,20 +487,33 @@ function addKitToCart() {
     return { label: opt.label, choice: select ? select.value : null };
   });
 
+  // Preço do kit (transforma de R$ 12,00 → 12.00)
+  const priceNumber = parseFloat(currentKit.price.replace('R$', '').replace(',', '.')) || 0;
+
+  // Cria o array de itens desmembrados
+  const itensDesmembrados = currentKit.itens.map(item => {
+    return {
+      nome: item.nome,
+      quantidade: item.quantidade
+    };
+  });
+
   const existingItem = cartItems.find(item => item.id === currentKit.id);
-  const priceNumber = parsePrice(currentKit.price);
 
   if (existingItem) {
     existingItem.quantity += itemCountKit;
+    existingItem.itens = itensDesmembrados;
+    existingItem.price = `R$ ${priceNumber.toFixed(2).replace('.', ',')}`; // atualiza o preço
   } else {
     cartItems.push({
       id: currentKit.id,
       name: currentKit.name,
-      price: `R$ ${priceNumber.toFixed(2).replace('.', ',')}`,
       image: currentKit.image,
       quantity: itemCountKit,
       options: selectedOptions,
-      category: currentKit.category || 'Kit'
+      category: currentKit.category || 'Kit',
+      itens: itensDesmembrados,
+      price: `R$ ${priceNumber.toFixed(2).replace('.', ',')}` // adiciona o preço
     });
   }
 
@@ -506,5 +521,14 @@ function addKitToCart() {
   cartCount += itemCountKit;
   document.getElementById('cartCount').innerText = cartCount;
   fecharModalKit();
+
+  console.log("✅ Kit adicionado ao carrinho:");
+  console.log(JSON.stringify(cartItems[cartItems.length - 1], null, 2));
 }
+
+
+
+
+
+
 

@@ -21,7 +21,7 @@ function renderCart() {
   cartContent.innerHTML = '';
 
   if (cartItems.length === 0) {
-    cartContent.innerHTML = '<p>Seu carrinho est\u00e1 vazio.</p>';
+    cartContent.innerHTML = '<p>Seu carrinho está vazio.</p>';
     const cartCountElement = document.getElementById('cartCount');
     if (cartCountElement) cartCountElement.innerText = 0;
     document.getElementById('checkoutButton').style.display = 'none';
@@ -32,19 +32,33 @@ function renderCart() {
   let totalItems = 0;
 
   cartItems.forEach((item, index) => {
-    const itemTotal = parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
+    let itemTotal = 0;
+
+    // Se houver preço no kit/produto
+    if (item.price) {
+      const precoNum = parseFloat(item.price.replace('R$', '').replace(',', '.'));
+      itemTotal = precoNum * item.quantity;
+    }
+
     total += itemTotal;
     totalItems += item.quantity;
 
     const cartItemElement = document.createElement('div');
     cartItemElement.classList.add('cart-item');
 
+    // Lista de itens desmembrados do kit
+    const itensList = item.itens
+      ? `<ul>${item.itens.map(i => `<li>${i.quantidade}x ${i.nome}</li>`).join('')}</ul>`
+      : '';
+
     cartItemElement.innerHTML = `
       <img src="${item.image}" alt="${item.name}" class="cart-item-image">
       <div class="cart-item-info">
         <h3 class="cart-item-name">${item.name}</h3>
-        <p class="cart-item-quantity">Qtd: ${item.quantity} x ${item.price}</p>
-        <p class="cart-item-total">Total: R$ ${itemTotal.toFixed(2).replace('.', ',')}</p>
+        <p class="cart-item-quantity">Qtd: ${item.quantity}</p>
+        ${item.price ? `<p class="cart-item-price">Preço: ${item.price}</p>` : ''}
+        ${item.price ? `<p class="cart-item-total">Total: R$ ${itemTotal.toFixed(2).replace('.', ',')}</p>` : ''}
+        ${itensList}
       </div>
     `;
 
@@ -67,6 +81,7 @@ function renderCart() {
 
   document.getElementById('checkoutButton').style.display = 'block';
 }
+
 
 function removeFromCart(index) {
   cartItems.splice(index, 1);
